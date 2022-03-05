@@ -1,7 +1,5 @@
 package gui;
 
-import gui.menu.Exit;
-
 import java.awt.BorderLayout;
 
 import javax.swing.*;
