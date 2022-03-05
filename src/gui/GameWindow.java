@@ -1,11 +1,10 @@
 package gui;
 
-import logic.GameVisualizer;
-
 import java.awt.BorderLayout;
 
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 public class GameWindow extends JInternalFrame {
     private final GameVisualizer m_visualizer;
@@ -17,5 +16,7 @@ public class GameWindow extends JInternalFrame {
         panel.add(m_visualizer, BorderLayout.CENTER);
         getContentPane().add(panel);
         pack();
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        Exit.addJInternalListener(this);
     }
 }
