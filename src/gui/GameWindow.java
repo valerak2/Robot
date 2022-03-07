@@ -1,5 +1,8 @@
 package gui;
 
+import gui.menu.Exit;
+import logic.GameVisualizer;
+
 import java.awt.BorderLayout;
 
 import javax.swing.*;
