@@ -6,9 +6,12 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import gui.menu.CustomizeMenu;
 import gui.menu.Exit;
 import gui.menu.TestMenu;
 import log.Logger;
+
+import static javax.swing.SwingUtilities.*;
 
 /**
  * Что требуется сделать:
@@ -60,8 +63,11 @@ public class MainApplicationFrame extends JFrame {
 
     private JMenuBar generateMenuBar() {
         JMenuBar menuBar = new JMenuBar();
+        TestMenu testMenu = new TestMenu();
+        CustomizeMenu customizeMenu = new CustomizeMenu();
         menuBar.add(addLookAndFeelMenu());
-        menuBar.add(TestMenu.addTestMenu());
+        menuBar.add(testMenu.addTestMenu());
+        menuBar.add(customizeMenu.addCustomizeMenu());
         menuBar.add(addCloseButton(this));
         return menuBar;
     }
@@ -98,7 +104,7 @@ public class MainApplicationFrame extends JFrame {
     private void setLookAndFeel(String className) {
         try {
             UIManager.setLookAndFeel(className);
-            SwingUtilities.updateComponentTreeUI(this);
+            updateComponentTreeUI(this);
         } catch (ClassNotFoundException | InstantiationException
                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
             // just ignore
