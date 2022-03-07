@@ -3,4 +3,4 @@
 *.xml
 *.class
 target/classes/gui/GameVisualizer$2.class
-*.xml
+

@@ -85,7 +85,6 @@ public class Exit {
     }
 
 
-
     public static void exit(WindowEvent event) {
         Object[] options = {"Да", "Нет!"};
         int n = JOptionPane
@@ -112,7 +111,7 @@ public class Exit {
         }
     }
 
-    public static void exit(ActionEvent event,JFrame frame) {
+    public static void exit(ActionEvent event, JFrame frame) {
         Object[] options = {"Да", "Нет!"};
         int n = JOptionPane
                 .showOptionDialog(frame, "Закрыть окно?",
@@ -124,7 +123,6 @@ public class Exit {
             System.exit(0);
         }
     }
-
 
 
 }
