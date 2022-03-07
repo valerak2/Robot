@@ -106,7 +106,7 @@ public class MainApplicationFrame extends JFrame {
     }
 
     public static JButton addCloseButton(JFrame frame) {
-        JButton button = new JButton("close");
+        JButton button = new JButton("Выход");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
