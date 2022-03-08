@@ -35,7 +35,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
     private void updateLogContent() {
         StringBuilder content = new StringBuilder();
         for (LogEntry entry : m_logSource.all()) {
-            content.append(entry.getMessage()).append("\n");
+            content.append("[").append(entry.getLevel()).append("]").append(entry.getMessage()).append("\n");
         }
         m_logContent.setText(content.toString());
         m_logContent.invalidate();
@@ -44,5 +44,9 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
     @Override
     public void onLogChanged() {
         EventQueue.invokeLater(this::updateLogContent);
+    }
+
+    public TextArea getM_logSource() {
+        return m_logContent;
     }
 }
