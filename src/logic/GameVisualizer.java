@@ -1,7 +1,5 @@
 package logic;
 
-import gui.CustomizeRobots;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;

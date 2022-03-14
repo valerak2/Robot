@@ -14,7 +14,8 @@ import java.util.Collections;
  * ограниченного размера)
  */
 public class LogWindowSource {
-    private int m_iQueueLength;
+
+    private final int m_iQueueLength;
 
     private ArrayDeque<LogEntry> m_messages;
     private final ArrayList<LogChangeListener> m_listeners;
@@ -44,11 +45,8 @@ public class LogWindowSource {
         LogEntry entry = new LogEntry(logLevel, strMessage);
         if (m_messages.size() >= m_iQueueLength) {
             m_messages.removeFirst();
-            m_messages.addLast(entry);
-        } else {
-            m_messages.addLast(entry);
         }
-        //m_messages.addLast(entry);
+        m_messages.addLast(entry);
         LogChangeListener[] activeListeners = m_activeListeners;
         if (activeListeners == null) {
             synchronized (m_listeners) {
@@ -67,15 +65,19 @@ public class LogWindowSource {
         return m_messages.size();
     }
 
-//    public Iterable<LogEntry> range(int startFrom, int count) {
-//        if (startFrom < 0 || startFrom >= m_messages.size()) {
-//            return Collections.emptyList();
-//        }
-//        int indexTo = Math.min(startFrom + count, m_messages.size());
-//        return m_messages.subList(startFrom, indexTo);
-//    }
+    //    public Iterable<LogEntry> range(int startFrom, int count) {
+    //        if (startFrom < 0 || startFrom >= m_messages.size()) {
+    //            return Collections.emptyList();
+    //        }
+    //        int indexTo = Math.min(startFrom + count, m_messages.size());
+    //        return m_messages.subList(startFrom, indexTo);
+    //    }
 
     public Iterable<LogEntry> all() {
         return m_messages;
+    }
+
+    public int getM_iQueueLength() {
+        return m_iQueueLength;
     }
 }
