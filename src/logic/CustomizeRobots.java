@@ -16,7 +16,7 @@ public class CustomizeRobots {
         return figureRobots;
     }
 
-    public static void setFigureRobots(String figure) {
+    public void setFigureRobots(String figure) {
         figureRobots = figure;
     }
 
