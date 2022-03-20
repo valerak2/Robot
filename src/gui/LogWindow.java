@@ -7,7 +7,7 @@ import java.awt.TextArea;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
-import gui.menu.Exit;
+import gui.menu.CloseDialogPane;
 import log.LogChangeListener;
 import log.LogEntry;
 import log.LogWindowSource;
@@ -29,7 +29,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
         getContentPane().add(panel);
         pack();
         updateLogContent();
-        Exit.addJInternalListener(this);
+        CloseDialogPane.addJInternalListener(this);
     }
 
     private void updateLogContent() {
