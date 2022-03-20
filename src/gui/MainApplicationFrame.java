@@ -6,8 +6,9 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import gui.menu.CloseMenu;
 import gui.menu.CustomizeMenu;
-import gui.menu.Exit;
+import gui.menu.CloseDialogPane;
 import gui.menu.TestMenu;
 import log.Logger;
 
@@ -41,7 +42,7 @@ public class MainApplicationFrame extends JFrame {
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        Exit.addWindowListener(this);
+        CloseDialogPane.addWindowListener(this);
     }
 
 
@@ -68,7 +69,7 @@ public class MainApplicationFrame extends JFrame {
         menuBar.add(addLookAndFeelMenu());
         menuBar.add(testMenu.addTestMenu());
         menuBar.add(customizeMenu.addCustomizeMenu());
-        menuBar.add(addCloseButton(this));
+        menuBar.add(CloseMenu.addCloseMenu());
         return menuBar;
     }
 
@@ -113,13 +114,6 @@ public class MainApplicationFrame extends JFrame {
                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
             Logger.error(e.toString());
         }
-    }
-
-    public static JButton addCloseButton(JFrame frame) {
-        JButton button = new JButton("Выход");
-        button.addActionListener(e -> Exit.exit(e, frame));
-        frame.add(button);
-        return button;
     }
 
 
