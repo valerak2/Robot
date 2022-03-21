@@ -3,5 +3,5 @@
 *.xml
 *.class
 target/classes/gui/GameVisualizer$2.class
-
 *.iml
+pom.xml

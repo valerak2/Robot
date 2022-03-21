@@ -7,44 +7,44 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class CustomizeMenu {
-    CustomizeRobots customize = new CustomizeRobots();
+    CustomizeRobots customizeRobots = new CustomizeRobots();
 
     public JMenu addCustomizeMenu() {
         JMenu customizeMenu = new JMenu("Кастомизация робота");
         customizeMenu.setMnemonic(KeyEvent.VK_T);
-        customizeMenu.add(getColors());
-        customizeMenu.add(getFigure());
+        customizeMenu.add(setColorMenu());
+        customizeMenu.add(setFigureMenu());
         return customizeMenu;
     }
 
-    private JMenuItem getColors() {
+    private JMenuItem setColorMenu() {
         JMenu colors = new JMenu("Цвет");
         colors.setMnemonic(KeyEvent.VK_T);
         {
-            colors.add(addColors(Color.RED, "RED"));
-            colors.add(addColors(Color.GREEN, "GREEN"));
-            colors.add(addColors(Color.BLUE, "BLUE"));
-            colors.add(addColors(Color.ORANGE, "ORANGE"));
-            colors.add(addColors(Color.MAGENTA, "MAGENTA"));
-            colors.add(addColors(Color.GRAY, "GRAY"));
+            colors.add(setColor(Color.RED, "RED"));
+            colors.add(setColor(Color.GREEN, "GREEN"));
+            colors.add(setColor(Color.BLUE, "BLUE"));
+            colors.add(setColor(Color.ORANGE, "ORANGE"));
+            colors.add(setColor(Color.MAGENTA, "MAGENTA"));
+            colors.add(setColor(Color.GRAY, "GRAY"));
         }
         return colors;
     }
 
-    private JMenuItem addColors(Color colour, String colourName) {
+    private JMenuItem setColor(Color colour, String colourName) {
         JMenuItem menuItem = new JMenuItem(colourName, KeyEvent.VK_S);
-        menuItem.addActionListener((event) -> customize.setColorRobots(colour));
+        menuItem.addActionListener((event) -> customizeRobots.setColorRobots(colour));
         return menuItem;
     }
 
-    private JMenuItem getFigure() {
+    private JMenuItem setFigureMenu() {
         JMenu figure = new JMenu("Фигура");
         figure.setMnemonic(KeyEvent.VK_T);
         {
             JMenuItem Oval = new JMenuItem("Oval", KeyEvent.VK_S);
-            Oval.addActionListener((event) -> customize.setFigureRobots("Oval"));
+            Oval.addActionListener((event) -> customizeRobots.setFigureRobots("Oval"));
             JMenuItem Rect = new JMenuItem("Rectangle", KeyEvent.VK_S);
-            Rect.addActionListener((event) -> customize.setFigureRobots("Rect"));
+            Rect.addActionListener((event) -> customizeRobots.setFigureRobots("Rect"));
             figure.add(Oval);
             figure.add(Rect);
         }
