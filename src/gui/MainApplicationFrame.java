@@ -6,7 +6,9 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import gui.menu.CloseMenu;
 import gui.menu.OptionsMenu;
+
 import gui.menu.CustomizeMenu;
 import gui.menu.CloseDialogPane;
 import gui.menu.TestMenu;
@@ -70,7 +72,10 @@ public class MainApplicationFrame extends JFrame {
         menuBar.add(addLookAndFeelMenu());
         menuBar.add(testMenu.addTestMenu());
         menuBar.add(customizeMenu.addCustomizeMenu());
+
+        menuBar.add(CloseMenu.addCloseMenu()
         menuBar.add(optionsMenu.addOptionsMenu());
+
         return menuBar;
     }
 
