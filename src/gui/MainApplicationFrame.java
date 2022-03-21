@@ -6,10 +6,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import gui.menu.OptionsMenu;
-import gui.menu.CustomizeMenu;
-import gui.menu.CloseDialogPane;
-import gui.menu.TestMenu;
+import gui.menu.*;
 import log.Logger;
 
 import static javax.swing.SwingUtilities.*;
@@ -67,55 +64,10 @@ public class MainApplicationFrame extends JFrame {
         TestMenu testMenu = new TestMenu();
         CustomizeMenu customizeMenu = new CustomizeMenu();
         OptionsMenu optionsMenu = new OptionsMenu();
-        menuBar.add(addLookAndFeelMenu());
+        menuBar.add(LookAndFeelMenu.addLookAndFeelMenu(this));
         menuBar.add(testMenu.addTestMenu());
         menuBar.add(customizeMenu.addCustomizeMenu());
         menuBar.add(optionsMenu.addOptionsMenu());
         return menuBar;
     }
-
-    private JMenu addLookAndFeelMenu() {
-        JMenu lookAndFeelMenu = new JMenu("Режим отображения");
-        lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
-        lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(
-                "Управление режимом отображения приложения");
-        lookAndFeelMenu.add(addSystemScheme());
-        lookAndFeelMenu.add(addCrossplatformScheme());
-        return lookAndFeelMenu;
-    }
-
-    private JMenuItem addSystemScheme() {
-        JMenuItem systemLookAndFeel = new JMenuItem("Системная схема", KeyEvent.VK_S);
-        systemLookAndFeel.addActionListener((event) -> {
-            setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            this.invalidate();
-        });
-        systemLookAndFeel.addActionListener((event) ->
-                Logger.info("Установлена системная схема"));
-        return systemLookAndFeel;
-    }
-
-    private JMenuItem addCrossplatformScheme() {
-        JMenuItem crossplatformLookAndFeel = new JMenuItem("Универсальная схема", KeyEvent.VK_S);
-        crossplatformLookAndFeel.addActionListener((event) -> {
-            setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            this.invalidate();
-        });
-        crossplatformLookAndFeel.addActionListener((event) ->
-                Logger.info("Установлена универсальная схема"));
-        return crossplatformLookAndFeel;
-    }
-
-
-    private void setLookAndFeel(String className) {
-        try {
-            UIManager.setLookAndFeel(className);
-            updateComponentTreeUI(this);
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            Logger.error(e.toString());
-        }
-    }
-
-
 }

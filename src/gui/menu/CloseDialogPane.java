@@ -44,6 +44,7 @@ public class CloseDialogPane {
         if (n == 0) {
             if ((eventObject.getSource()) == LogWindow.class) {
                 ((Component) eventObject.getSource()).setVisible(false);
+                ((Component) eventObject.getSource()).
             }
 
             if ((eventObject.getSource()).getClass() == MainApplicationFrame.class) {
