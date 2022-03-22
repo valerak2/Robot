@@ -74,7 +74,7 @@ public class MainApplicationFrame extends JFrame {
         menuBar.add(testMenu.addTestMenu());
         menuBar.add(customizeMenu.addCustomizeMenu());
 
-        menuBar.add(CloseMenu.addCloseMenu()
+        menuBar.add(CloseMenu.addCloseMenu());
         menuBar.add(optionsMenu.addOptionsMenu());
 
         return menuBar;
