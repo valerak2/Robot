@@ -1,4 +1,4 @@
-import gui.LogWindow;
+import gui.windows.LogWindow;
 import log.LogLevel;
 import log.LogWindowSource;
 import log.Logger;

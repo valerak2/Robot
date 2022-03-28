@@ -1,7 +1,7 @@
 package gui.menu;
 
-import gui.GameWindow;
-import gui.LogWindow;
+import gui.windows.GameWindow;
+import gui.windows.LogWindow;
 import gui.MainApplicationFrame;
 
 import javax.swing.*;
@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.util.EventObject;
 
 public class CloseDialogPane {
+    public static JFrame frame;
 
 
     public static void addWindowListener(JFrame frame) {

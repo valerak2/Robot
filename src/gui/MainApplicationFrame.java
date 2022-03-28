@@ -2,27 +2,26 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.*;
+import java.io.Serializable;
 
 import javax.swing.*;
 
 import gui.menu.*;
-import gui.menu.CloseMenu;
 import gui.menu.OptionsMenu;
 
 import gui.menu.CustomizeMenu;
 import gui.menu.CloseDialogPane;
 import gui.menu.TestMenu;
+import gui.windows.GameWindow;
+import gui.windows.LogWindow;
 import log.Logger;
-
-import static javax.swing.SwingUtilities.*;
 
 /**
  * Что требуется сделать:
  * 1. Метод создания меню перегружен функционалом и трудно читается.
  * Следует разделить его на серию более простых методов (или вообще выделить отдельный класс).
  */
-public class MainApplicationFrame extends JFrame {
+public class MainApplicationFrame extends JFrame implements Serializable {
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     public MainApplicationFrame() {
@@ -42,6 +41,7 @@ public class MainApplicationFrame extends JFrame {
         GameWindow gameWindow = new GameWindow();
         gameWindow.setSize(500, 500);
         addWindow(gameWindow);
+        gameWindow.getM_visualizer().getP();
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -73,8 +73,6 @@ public class MainApplicationFrame extends JFrame {
         menuBar.add(LookAndFeelMenu.addLookAndFeelMenu(this));
         menuBar.add(testMenu.addTestMenu());
         menuBar.add(customizeMenu.addCustomizeMenu());
-
-        menuBar.add(CloseMenu.addCloseMenu());
         menuBar.add(optionsMenu.addOptionsMenu());
 
         return menuBar;
