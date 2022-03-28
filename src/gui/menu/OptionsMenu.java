@@ -13,7 +13,7 @@ public class OptionsMenu {
 
     private JMenuItem addExit() {
         JMenuItem addCloseItem = new JMenuItem("Выход", KeyEvent.VK_S);
-        addCloseItem.addActionListener((event) -> CloseDialogPane.ShowCloseDialog(event));
+        addCloseItem.addActionListener(CloseDialogPane::ShowCloseDialog);
         return addCloseItem;
     }
 }

@@ -3,7 +3,7 @@ package gui;
 import gui.menu.CloseDialogPane;
 import logic.GameVisualizer;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.*;
 
@@ -17,6 +17,7 @@ public class GameWindow extends JInternalFrame {
         getContentPane().add(panel);
         pack();
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        panel.setSize(400, 400);
         CloseDialogPane.addJInternalListener(this);
     }
 }

@@ -23,13 +23,28 @@ class PaintOperations {
 
     }
 
-    static void drawTarget(Graphics2D g, int x, int y) {
+    void drawTarget(Graphics2D g, int x, int y) {
         AffineTransform t = AffineTransform.getRotateInstance(0, 0, 0);
         g.setTransform(t);
         g.setColor(Color.GREEN);
         fillFigure(g, "Oval", x, y, 5, 5);
         g.setColor(Color.BLACK);
         drawFigure(g, "Oval", x, y, 5, 5);
+    }
+    void drawRobot(Graphics2D g,double x, double y,double direction) {
+        int robotCenterX = round(x);
+        int robotCenterY = round(y);
+        String figure = CustomizeRobots.getFigureRobots();
+        AffineTransform t = AffineTransform.getRotateInstance(direction, robotCenterX, robotCenterY);
+        g.setTransform(t);
+        g.setColor(CustomizeRobots.getColorRobots());
+        fillFigure(g, figure, robotCenterX, robotCenterY, 30, 10);
+        g.setColor(Color.BLACK);
+        drawFigure(g, figure, robotCenterX, robotCenterY, 30, 10);
+        g.setColor(Color.WHITE);
+        fillFigure(g, figure, robotCenterX + 10, robotCenterY, 5, 5);
+        g.setColor(Color.BLACK);
+        drawFigure(g, figure, robotCenterX + 10, robotCenterY, 5, 5);
     }
 
 
