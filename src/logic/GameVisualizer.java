@@ -16,6 +16,7 @@ public class GameVisualizer extends JPanel {
         return p;
     }
 
+
     public GameVisualizer() {
 
         p.timer.schedule(new TimerTask() {
