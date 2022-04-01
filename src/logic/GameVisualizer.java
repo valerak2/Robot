@@ -12,11 +12,6 @@ public class GameVisualizer extends JPanel {
     MoveOperations moveOperations = new MoveOperations(p);
     PaintOperations paintOperations = new PaintOperations();
 
-    public Parameters getP() {
-        return p;
-    }
-
-
     public GameVisualizer() {
 
         p.timer.schedule(new TimerTask() {

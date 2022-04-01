@@ -3,7 +3,7 @@ package logic;
 import java.awt.*;
 import java.util.Timer;
 
-class Parameters {
+public class Parameters {
 
     final Timer timer = new Timer("events generator", true);
 
