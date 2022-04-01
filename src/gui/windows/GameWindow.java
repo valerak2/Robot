@@ -1,6 +1,6 @@
 package gui.windows;
 
-import gui.menu.CloseDialogPane;
+import gui.menu.CloseDialogPanel;
 import logic.GameVisualizer;
 
 import java.awt.*;
@@ -20,9 +20,7 @@ public class GameWindow extends JInternalFrame {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(m_visualizer, BorderLayout.CENTER);
         getContentPane().add(panel);
-        pack();
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        panel.setSize(400, 400);
-        CloseDialogPane.addJInternalListener(this);
+        CloseDialogPanel.addJInternalListener(this);
     }
 }

@@ -7,7 +7,7 @@ import java.awt.TextArea;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
-import gui.menu.CloseDialogPane;
+import gui.menu.CloseDialogPanel;
 import log.LogChangeListener;
 import log.LogEntry;
 import log.LogWindowSource;
@@ -21,15 +21,13 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
         m_logSource = logSource;
         m_logSource.registerListener(this);
         m_logContent = new TextArea("");
-        m_logContent.setSize(200, 500);
         m_logContent.setEditable(false);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(m_logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
-        pack();
         updateLogContent();
-        CloseDialogPane.addJInternalListener(this);
+        CloseDialogPanel.addJInternalListener(this);
     }
 
     private void updateLogContent() {
@@ -46,7 +44,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
         EventQueue.invokeLater(this::updateLogContent);
     }
 
-    public TextArea getM_logSource() {
+    public TextArea getM_logContent() {
         return m_logContent;
     }
 }

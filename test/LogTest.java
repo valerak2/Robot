@@ -19,7 +19,7 @@ public class LogTest {
         for (int i = 0; i < Logger.getDefaultLogSource().getM_iQueueLength(); i++) {
             Logger.warning("Б");
         }
-        String logContent = logWindow.getM_logSource().toString();
+        String logContent = logWindow.getM_logContent().toString();
         assertFalse(logContent.contains("Протокол работает"));
         assertFalse(logContent.contains("А"));
         assertFalse(logContent.contains("[Info]"));
@@ -45,7 +45,7 @@ public class LogTest {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             Logger.error(e.toString());
         }
-        String logContent = logWindow.getM_logSource().toString();
+        String logContent = logWindow.getM_logContent().toString();
         System.out.println(logContent);
         assertTrue(logContent.contains("[Error]"));
 

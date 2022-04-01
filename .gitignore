@@ -4,3 +4,5 @@ pom.xml
 *.class
 target/classes/gui/GameVisualizer$2.class
 *.iml
+*.bin
+pom.xml

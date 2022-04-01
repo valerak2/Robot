@@ -12,9 +12,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.EventObject;
 
-public class CloseDialogPane {
-    public static JFrame frame;
-
+public class CloseDialogPanel {
 
     public static void addWindowListener(JFrame frame) {
         frame.addWindowListener(new WindowAdapter() {
