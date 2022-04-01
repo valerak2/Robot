@@ -7,8 +7,10 @@ import java.io.File;
 import java.io.Serializable;
 import javax.swing.*;
 
-import gui.Serialization.Data;
-import gui.Serialization.WindowState;
+import gui.Storemanager.Data;
+import gui.Storemanager.RobotCustomize;
+import gui.Storemanager.RobotParameters;
+import gui.Storemanager.WindowState;
 import gui.menu.*;
 import gui.menu.OptionsMenu;
 import gui.menu.CustomizeMenu;
@@ -17,6 +19,7 @@ import gui.menu.TestMenu;
 import gui.windows.GameWindow;
 import gui.windows.LogWindow;
 import log.Logger;
+import logic.CustomizeRobots;
 
 /**
  * Что требуется сделать:
@@ -26,8 +29,8 @@ import log.Logger;
 public class MainApplicationFrame extends JFrame implements Serializable {
     private final String file = System.getProperty("user.home") + File.separator + "robotState";
     private final JDesktopPane desktopPane = new JDesktopPane();
-    private final Data storage = new Data();
-    private final GameWindow gameWindow = new GameWindow();
+    private final Data data = new Data();
+    private final GameWindow gameWindow = new GameWindow(data);
     private final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
 
     public void quitListener() {
@@ -42,19 +45,28 @@ public class MainApplicationFrame extends JFrame implements Serializable {
 
 
         if (userAnswer == JOptionPane.YES_OPTION) {
-            storage.setState("gameWindow", new WindowState(
+            data.setStateWindows("gameWindow", new WindowState(
                     gameWindow.getWidth(),
                     gameWindow.getHeight(),
                     gameWindow.getX(),
                     gameWindow.getY(),
                     gameWindow.isClosed()));
-            storage.setState("logWindow", new WindowState(
+            data.setStateWindows("logWindow", new WindowState(
                     logWindow.getWidth(),
                     logWindow.getHeight(),
                     logWindow.getX(),
                     logWindow.getY(),
                     logWindow.isClosed()));
-            storage.writeObject(file);
+            data.setRobotCustomize("customize", new RobotCustomize(
+                    CustomizeRobots.getColorRobots(),
+                    CustomizeRobots.getFigureRobots()));
+            data.setRobotParameters("parameters", new RobotParameters(
+                    gameWindow.getM_visualizer().getP().getRobotPositionX(),
+                    gameWindow.getM_visualizer().getP().getRobotPositionY(),
+                    gameWindow.getM_visualizer().getP().getRobotDirection(),
+                    gameWindow.getM_visualizer().getP().getTargetPositionX(),
+                    gameWindow.getM_visualizer().getP().getTargetPositionY()));
+            data.writeObject(file);
             System.exit(0);
         }
     }
@@ -73,14 +85,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
 
-        var gameWindowParams = storage.getState("gameWindow");
-        gameWindow.setSize(gameWindowParams.getWidth(), gameWindowParams.getHeight());
-        gameWindow.setLocation(gameWindowParams.getPositionX(), gameWindowParams.getPositionY());
-        try {
-            gameWindow.setClosed(gameWindowParams.isClosed());
-        } catch (Exception ignored) {
-        }
-        gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        GameWindow gameWindow = createGameWindow();
         addWindow(gameWindow);
 
         setJMenuBar(generateMenuBar());
@@ -88,11 +93,23 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         CloseDialogPanel.addWindowListener(this);
     }
 
+    protected GameWindow createGameWindow() {
+        WindowState gameWindowParams = data.getStateWindows("gameWindow");
+        gameWindow.setSize(gameWindowParams.width(), gameWindowParams.height());
+        gameWindow.setLocation(gameWindowParams.positionX(), gameWindowParams.positionY());
+        try {
+            gameWindow.setClosed(gameWindowParams.isClosed());
+        } catch (Exception ignored) {
+        }
+        gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        return gameWindow;
+    }
+
 
     protected LogWindow createLogWindow() {
-        var logWindowParams = storage.getState("logWindow");
-        logWindow.setLocation(logWindowParams.getPositionX(), logWindowParams.getPositionY());
-        logWindow.setSize(logWindowParams.getWidth(), logWindowParams.getHeight());
+        var logWindowParams = data.getStateWindows("logWindow");
+        logWindow.setLocation(logWindowParams.positionX(), logWindowParams.positionY());
+        logWindow.setSize(logWindowParams.width(), logWindowParams.height());
         try {
             logWindow.setClosed(logWindowParams.isClosed());
         } catch (Exception ignored) {
