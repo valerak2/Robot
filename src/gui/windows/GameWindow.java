@@ -1,9 +1,9 @@
 package gui.windows;
 
 
-import gui.Storemanager.Data;
-import gui.Storemanager.RobotCustomize;
-import gui.Storemanager.RobotParameters;
+import gui.serialization.Data;
+import gui.serialization.state.RobotCustomize;
+import gui.serialization.state.RobotParameters;
 import gui.menu.CloseDialogPanel;
 import logic.CustomizeRobots;
 
@@ -24,7 +24,7 @@ public class GameWindow extends JInternalFrame {
         super("Игровое поле", true, true, true, true);
         m_visualizer = new GameVisualizer();
         setCustomizeRobot(data);
-        setParametrsRobot(data);
+        setParametersRobot(data);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(m_visualizer, BorderLayout.CENTER);
@@ -32,15 +32,17 @@ public class GameWindow extends JInternalFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         CloseDialogPanel.addJInternalListener(this);
     }
-    private void setCustomizeRobot(Data data){
-        RobotCustomize robotParameters = data.getCustomizeRobot("customize");
+
+    private void setCustomizeRobot(Data data) {
+        RobotCustomize robotCustomize = (RobotCustomize) data.getState("customize");
         CustomizeRobots customizeRobots = new CustomizeRobots();
-        customizeRobots.setFigureRobots(robotParameters.figureRobots());
-        customizeRobots.setColorRobots(robotParameters.colorRobots());
+        customizeRobots.setFigureRobots(robotCustomize.figureRobots());
+        customizeRobots.setColorRobots(robotCustomize.colorRobots());
     }
-    private void setParametrsRobot(Data data){
-        RobotParameters robotParameters = data.getParametersRobot("parameters");
-        m_visualizer.getP().Parameters1(
+
+    private void setParametersRobot(Data data) {
+        RobotParameters robotParameters = (RobotParameters) data.getState("parameters");
+        m_visualizer.getP().builderParameters(
                 robotParameters.robotPositionX(),
                 robotParameters.robotPositionY(),
                 robotParameters.robotDirection(),

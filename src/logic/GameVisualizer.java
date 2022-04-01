@@ -1,20 +1,22 @@
 package logic;
 
+import logic.operations.MoveOperations;
+import logic.operations.PaintOperations;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class GameVisualizer extends JPanel {
 
+    private final Parameters p = new Parameters();
+
     public Parameters getP() {
         return p;
     }
-
-    private Parameters p = new Parameters();
 
     MoveOperations moveOperations = new MoveOperations(p);
     PaintOperations paintOperations = new PaintOperations();
@@ -58,7 +60,7 @@ public class GameVisualizer extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        paintOperations.drawRobot(g2d, p.robotPositionX, p.robotPositionY, p.robotDirection);
-        paintOperations.drawTarget(g2d, p.targetPositionX, p.targetPositionY);
+        paintOperations.drawRobot(g2d, p.getRobotPositionX(), p.getRobotPositionY(), p.getRobotDirection());
+        paintOperations.drawTarget(g2d, p.getTargetPositionX(), p.getTargetPositionY());
     }
 }

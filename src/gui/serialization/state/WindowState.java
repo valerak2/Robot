@@ -1,4 +1,4 @@
-package gui.Storemanager;
+package gui.serialization.state;
 
 import java.io.Serializable;
 

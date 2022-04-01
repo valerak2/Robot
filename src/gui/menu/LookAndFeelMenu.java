@@ -1,7 +1,6 @@
 package gui.menu;
 
 import gui.MainApplicationFrame;
-import gui.RobotsProgram;
 import log.Logger;
 
 import javax.swing.*;

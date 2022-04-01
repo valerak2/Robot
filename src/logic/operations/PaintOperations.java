@@ -1,9 +1,11 @@
-package logic;
+package logic.operations;
+
+import logic.CustomizeRobots;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-class PaintOperations {
+public class PaintOperations {
     static int round(double value) {
         return (int) (value + 0.5);
     }
@@ -23,7 +25,7 @@ class PaintOperations {
 
     }
 
-    void drawTarget(Graphics2D g, int x, int y) {
+    public void drawTarget(Graphics2D g, int x, int y) {
         AffineTransform t = AffineTransform.getRotateInstance(0, 0, 0);
         g.setTransform(t);
         g.setColor(Color.GREEN);
@@ -31,7 +33,8 @@ class PaintOperations {
         g.setColor(Color.BLACK);
         drawFigure(g, "Oval", x, y, 5, 5);
     }
-    void drawRobot(Graphics2D g,double x, double y,double direction) {
+
+    public void drawRobot(Graphics2D g, double x, double y, double direction) {
         int robotCenterX = round(x);
         int robotCenterY = round(y);
         String figure = CustomizeRobots.getFigureRobots();

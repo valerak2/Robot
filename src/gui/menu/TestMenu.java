@@ -1,6 +1,5 @@
 package gui.menu;
 
-import log.LogLevel;
 import log.Logger;
 
 import javax.swing.*;

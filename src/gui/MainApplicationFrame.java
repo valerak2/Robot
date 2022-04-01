@@ -8,10 +8,10 @@ import java.io.Serializable;
 import javax.swing.*;
 
 
-import gui.Storemanager.Data;
-import gui.Storemanager.RobotCustomize;
-import gui.Storemanager.RobotParameters;
-import gui.Storemanager.WindowState;
+import gui.serialization.Data;
+import gui.serialization.state.RobotCustomize;
+import gui.serialization.state.RobotParameters;
+import gui.serialization.state.WindowState;
 
 import gui.menu.*;
 import gui.menu.OptionsMenu;
@@ -29,57 +29,12 @@ import logic.CustomizeRobots;
  * Следует разделить его на серию более простых методов (или вообще выделить отдельный класс).
  */
 public class MainApplicationFrame extends JFrame implements Serializable {
-    private final String file = System.getProperty("user.home") + File.separator + "robotState";
+    private final String file = System.getProperty("user.home") + File.separator + "window_and_robot_states";
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     private final Data data = new Data();
     private final GameWindow gameWindow = new GameWindow(data);
-
     private final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-
-    public void quitListener() {
-        UIManager.put("OptionPane.yesButtonText", "Да");
-        UIManager.put("OptionPane.noButtonText", "Нет");
-
-        int userAnswer = JOptionPane.showConfirmDialog(
-                this,
-                "Выйти?",
-                "Подтвердите выход",
-                JOptionPane.YES_NO_OPTION);
-
-
-        if (userAnswer == JOptionPane.YES_OPTION) {
-
-            data.setStateWindows("gameWindow", new WindowState(
-
-                    gameWindow.getWidth(),
-                    gameWindow.getHeight(),
-                    gameWindow.getX(),
-                    gameWindow.getY(),
-                    gameWindow.isClosed()));
-
-            data.setStateWindows("logWindow", new WindowState(
-
-                    logWindow.getWidth(),
-                    logWindow.getHeight(),
-                    logWindow.getX(),
-                    logWindow.getY(),
-                    logWindow.isClosed()));
-
-            data.setRobotCustomize("customize", new RobotCustomize(
-                    CustomizeRobots.getColorRobots(),
-                    CustomizeRobots.getFigureRobots()));
-            data.setRobotParameters("parameters", new RobotParameters(
-                    gameWindow.getM_visualizer().getP().getRobotPositionX(),
-                    gameWindow.getM_visualizer().getP().getRobotPositionY(),
-                    gameWindow.getM_visualizer().getP().getRobotDirection(),
-                    gameWindow.getM_visualizer().getP().getTargetPositionX(),
-                    gameWindow.getM_visualizer().getP().getTargetPositionY()));
-            data.writeObject(file);
-
-            System.exit(0);
-        }
-    }
 
     public MainApplicationFrame() {
         //Make the big window be indented 50 pixels from each edge
@@ -94,8 +49,8 @@ public class MainApplicationFrame extends JFrame implements Serializable {
 
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
-        GameWindow gameWindow = createGameWindow();
 
+        GameWindow gameWindow = createGameWindow();
         addWindow(gameWindow);
 
         setJMenuBar(generateMenuBar());
@@ -105,7 +60,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
     }
 
     protected GameWindow createGameWindow() {
-        WindowState gameWindowParams = data.getStateWindows("gameWindow");
+        WindowState gameWindowParams = (WindowState) data.getState("gameWindow");
         gameWindow.setSize(gameWindowParams.width(), gameWindowParams.height());
         gameWindow.setLocation(gameWindowParams.positionX(), gameWindowParams.positionY());
         try {
@@ -119,7 +74,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
 
 
     protected LogWindow createLogWindow() {
-        var logWindowParams = data.getStateWindows("logWindow");
+        WindowState logWindowParams = (WindowState) data.getState("logWindow");
         logWindow.setLocation(logWindowParams.positionX(), logWindowParams.positionY());
         logWindow.setSize(logWindowParams.width(), logWindowParams.height());
 
@@ -130,7 +85,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         }
         setMinimumSize(logWindow.getSize());
 
-        Logger.debug("Протокол работает");
+        Logger.info("Протокол работает");
         return logWindow;
     }
 
@@ -152,5 +107,51 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         menuBar.add(optionsMenu.addOptionsMenu(quit));
 
         return menuBar;
+    }
+
+    public void saveStates() {
+        data.setState("gameWindow", new WindowState(
+                gameWindow.getWidth(),
+                gameWindow.getHeight(),
+                gameWindow.getX(),
+                gameWindow.getY(),
+                gameWindow.isClosed()));
+
+        data.setState("logWindow", new WindowState(
+                logWindow.getWidth(),
+                logWindow.getHeight(),
+                logWindow.getX(),
+                logWindow.getY(),
+                logWindow.isClosed()));
+
+        data.setState("customize", new RobotCustomize(
+                CustomizeRobots.getColorRobots(),
+                CustomizeRobots.getFigureRobots()));
+
+        data.setState("parameters", new RobotParameters(
+                gameWindow.getM_visualizer().getP().getRobotPositionX(),
+                gameWindow.getM_visualizer().getP().getRobotPositionY(),
+                gameWindow.getM_visualizer().getP().getRobotDirection(),
+                gameWindow.getM_visualizer().getP().getTargetPositionX(),
+                gameWindow.getM_visualizer().getP().getTargetPositionY()));
+        data.writeObject(file);
+
+    }
+
+    public void quitListener() {
+        UIManager.put("OptionPane.yesButtonText", "Да");
+        UIManager.put("OptionPane.noButtonText", "Нет");
+
+        int userAnswer = JOptionPane.showConfirmDialog(
+                this,
+                "Выйти?",
+                "Подтвердите выход",
+                JOptionPane.YES_NO_OPTION);
+
+
+        if (userAnswer == JOptionPane.YES_OPTION) {
+            saveStates();
+            System.exit(0);
+        }
     }
 }
