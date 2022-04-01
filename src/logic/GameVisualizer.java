@@ -4,11 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class GameVisualizer extends JPanel {
-    private final Parameters p = new Parameters();
+
+    public Parameters getP() {
+        return p;
+    }
+
+    private Parameters p = new Parameters();
+
     MoveOperations moveOperations = new MoveOperations(p);
     PaintOperations paintOperations = new PaintOperations();
 
