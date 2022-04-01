@@ -7,10 +7,12 @@ import java.io.File;
 import java.io.Serializable;
 import javax.swing.*;
 
+
 import gui.Storemanager.Data;
 import gui.Storemanager.RobotCustomize;
 import gui.Storemanager.RobotParameters;
 import gui.Storemanager.WindowState;
+
 import gui.menu.*;
 import gui.menu.OptionsMenu;
 import gui.menu.CustomizeMenu;
@@ -29,8 +31,10 @@ import logic.CustomizeRobots;
 public class MainApplicationFrame extends JFrame implements Serializable {
     private final String file = System.getProperty("user.home") + File.separator + "robotState";
     private final JDesktopPane desktopPane = new JDesktopPane();
+
     private final Data data = new Data();
     private final GameWindow gameWindow = new GameWindow(data);
+
     private final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
 
     public void quitListener() {
@@ -45,18 +49,23 @@ public class MainApplicationFrame extends JFrame implements Serializable {
 
 
         if (userAnswer == JOptionPane.YES_OPTION) {
+
             data.setStateWindows("gameWindow", new WindowState(
+
                     gameWindow.getWidth(),
                     gameWindow.getHeight(),
                     gameWindow.getX(),
                     gameWindow.getY(),
                     gameWindow.isClosed()));
+
             data.setStateWindows("logWindow", new WindowState(
+
                     logWindow.getWidth(),
                     logWindow.getHeight(),
                     logWindow.getX(),
                     logWindow.getY(),
                     logWindow.isClosed()));
+
             data.setRobotCustomize("customize", new RobotCustomize(
                     CustomizeRobots.getColorRobots(),
                     CustomizeRobots.getFigureRobots()));
@@ -67,6 +76,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
                     gameWindow.getM_visualizer().getP().getTargetPositionX(),
                     gameWindow.getM_visualizer().getP().getTargetPositionY()));
             data.writeObject(file);
+
             System.exit(0);
         }
     }
@@ -84,13 +94,14 @@ public class MainApplicationFrame extends JFrame implements Serializable {
 
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
-
         GameWindow gameWindow = createGameWindow();
+
         addWindow(gameWindow);
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         CloseDialogPanel.addWindowListener(this);
+
     }
 
     protected GameWindow createGameWindow() {
@@ -103,6 +114,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         }
         gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         return gameWindow;
+
     }
 
 
@@ -110,6 +122,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         var logWindowParams = data.getStateWindows("logWindow");
         logWindow.setLocation(logWindowParams.positionX(), logWindowParams.positionY());
         logWindow.setSize(logWindowParams.width(), logWindowParams.height());
+
         try {
             logWindow.setClosed(logWindowParams.isClosed());
         } catch (Exception ignored) {

@@ -4,7 +4,9 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.Timer;
 
-public class Parameters implements Serializable {
+
+public class Parameters {
+
 
     final Timer timer = new Timer("events generator", true);
 

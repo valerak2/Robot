@@ -1,10 +1,12 @@
 package gui.windows;
 
+
 import gui.Storemanager.Data;
 import gui.Storemanager.RobotCustomize;
 import gui.Storemanager.RobotParameters;
 import gui.menu.CloseDialogPanel;
 import logic.CustomizeRobots;
+
 import logic.GameVisualizer;
 
 import java.awt.*;
@@ -44,5 +46,6 @@ public class GameWindow extends JInternalFrame {
                 robotParameters.robotDirection(),
                 robotParameters.targetPositionX(),
                 robotParameters.targetPositionY());
+
     }
 }
