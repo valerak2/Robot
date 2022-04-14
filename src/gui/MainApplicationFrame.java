@@ -18,6 +18,7 @@ import gui.menu.OptionsMenu;
 import gui.menu.CustomizeMenu;
 import gui.menu.CloseDialogPanel;
 import gui.menu.TestMenu;
+import gui.windows.CoordinateWindow;
 import gui.windows.GameWindow;
 import gui.windows.LogWindow;
 import log.Logger;
@@ -35,6 +36,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
     private final Data data = new Data();
     private final GameWindow gameWindow = new GameWindow(data);
     private final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
+    private final CoordinateWindow coordinateWindow = new CoordinateWindow();
 
     public MainApplicationFrame() {
         //Make the big window be indented 50 pixels from each edge
@@ -52,6 +54,9 @@ public class MainApplicationFrame extends JFrame implements Serializable {
 
         GameWindow gameWindow = createGameWindow();
         addWindow(gameWindow);
+
+        CoordinateWindow coordinateWindow = createCoordinateWindow();
+        addWindow(coordinateWindow);
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -83,11 +88,23 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         } catch (Exception ignored) {
 
         }
-        setMinimumSize(logWindow.getSize());
-
         Logger.info("Протокол работает");
         return logWindow;
     }
+
+    protected CoordinateWindow createCoordinateWindow() {
+        WindowState coordinateWindowParams = (WindowState) data.getState("coordinateWindow");
+        coordinateWindow.setLocation(coordinateWindowParams.positionX(), coordinateWindowParams.positionY());
+        coordinateWindow.setSize(coordinateWindowParams.width(), coordinateWindowParams.height());
+
+        try {
+            coordinateWindow.setClosed(coordinateWindowParams.isClosed());
+        } catch (Exception ignored) {
+
+        }
+        return coordinateWindow;
+    }
+
 
     protected void addWindow(JInternalFrame frame) {
         desktopPane.add(frame);
@@ -123,6 +140,12 @@ public class MainApplicationFrame extends JFrame implements Serializable {
                 logWindow.getX(),
                 logWindow.getY(),
                 logWindow.isClosed()));
+        data.setState("coordinateWindow", new WindowState(
+                coordinateWindow.getWidth(),
+                coordinateWindow.getHeight(),
+                coordinateWindow.getX(),
+                coordinateWindow.getY(),
+                coordinateWindow.isClosed()));
 
         data.setState("customize", new RobotCustomize(
                 CustomizeRobots.getColorRobots(),
