@@ -1,5 +1,6 @@
 package logic;
 
+import gui.windows.CoordinateWindow;
 import logic.operations.MoveOperations;
 import logic.operations.PaintOperations;
 
@@ -20,6 +21,7 @@ public class GameVisualizer extends JPanel {
 
     MoveOperations moveOperations = new MoveOperations(p);
     PaintOperations paintOperations = new PaintOperations();
+    CoordinateWindow coordinateWindow = new CoordinateWindow();
 
     public GameVisualizer() {
 
@@ -54,6 +56,7 @@ public class GameVisualizer extends JPanel {
         moveOperations.robotDirection();
         moveOperations.moveOnX();
         moveOperations.moveOnY();
+        coordinateWindow.updateCoordinateRobot(p.getRobotPositionX(),p.getRobotPositionY());
     }
 
     @Override

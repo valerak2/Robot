@@ -24,6 +24,8 @@ public class Data {
                     windowAndRobotState.put("logWindow", new WindowState(500, 500, 50, 50, false));
                 case "gameWindow":
                     windowAndRobotState.put("gameWindow", new WindowState(200, 600, 10, 10, false));
+                case "coordinateWindow":
+                    windowAndRobotState.put("coordinateWindow", new WindowState(150, 100, 0, 0, false));
                 case "customize":
                     windowAndRobotState.put("customize", new RobotCustomize(Color.RED, "Oval"));
                 case "parameters":
