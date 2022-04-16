@@ -27,6 +27,12 @@ public class CustomizeMenu {
             colors.add(setColor(Color.ORANGE, "ORANGE"));
             colors.add(setColor(Color.MAGENTA, "MAGENTA"));
             colors.add(setColor(Color.GRAY, "GRAY"));
+            colors.add(setColor(Color.CYAN, "CYAN"));
+            colors.add(setColor(Color.PINK, "PINK"));
+            colors.add(setColor(Color.WHITE, "WHITE"));
+            colors.add(setColor(Color.YELLOW, "YELLOW"));
+            colors.add(setColor(Color.LIGHT_GRAY, "LIGHT_GRAY"));
+
         }
         return colors;
     }

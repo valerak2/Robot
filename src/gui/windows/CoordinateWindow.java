@@ -4,32 +4,43 @@ import gui.menu.CloseDialogPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class CoordinateWindow extends JInternalFrame{
-    static TextArea m_logContent;
-    private static double robotPositionX;
-    private static double robotPositionY;
+public class CoordinateWindow extends JInternalFrame implements PropertyChangeListener {
+    private static CoordinateWindow INSTANCE;
+    TextArea tableCoordinate;
 
     public CoordinateWindow() {
         super("Координаты робота", true, true, true, true);
-        m_logContent = new TextArea("");
-        m_logContent.setEditable(true);
+        tableCoordinate = new TextArea("");
+        tableCoordinate.setEditable(true);
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(m_logContent, BorderLayout.CENTER);
+        panel.add(tableCoordinate, BorderLayout.CENTER);
         getContentPane().add(panel);
         CloseDialogPanel.addJInternalListener(this);
     }
-    public void updateCoordinateRobot(double robotPositionX1, double robotPositionY1) {
-        robotPositionX = robotPositionX1;
-        robotPositionY = robotPositionY1;
-        printCoordinateRobot();
+    public static CoordinateWindow getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new CoordinateWindow();
+        }
+        return INSTANCE;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        this.printCoordinateRobot((Point2D.Double) evt.getNewValue());
 
     }
-    private static void printCoordinateRobot() {
-        String content = "X: " + robotPositionX + "\n" +
-                "Y: " + robotPositionY;
-        m_logContent.setText(content);
-        m_logContent.invalidate();
+
+
+    private void printCoordinateRobot(Point2D.Double point) {
+        String content = "X: " + point.x + "\n" +
+                "Y: " + point.y;
+        tableCoordinate.setText(content);
+        tableCoordinate.invalidate();
     }
 }
+
