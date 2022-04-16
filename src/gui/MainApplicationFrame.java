@@ -36,7 +36,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
     private final Data data = new Data();
     private final GameWindow gameWindow = new GameWindow(data);
     private final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-    private final CoordinateWindow coordinateWindow = new CoordinateWindow();
+    private final CoordinateWindow coordinateWindow = CoordinateWindow.getInstance();
 
     public MainApplicationFrame() {
         //Make the big window be indented 50 pixels from each edge

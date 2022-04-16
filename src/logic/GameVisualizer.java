@@ -1,6 +1,5 @@
 package logic;
 
-import gui.windows.CoordinateWindow;
 import logic.operations.MoveOperations;
 import logic.operations.PaintOperations;
 
@@ -21,10 +20,10 @@ public class GameVisualizer extends JPanel {
 
     MoveOperations moveOperations = new MoveOperations(p);
     PaintOperations paintOperations = new PaintOperations();
-    CoordinateWindow coordinateWindow = new CoordinateWindow();
+    ModelUpdateEvent modelUpdateEvent = new ModelUpdateEvent();
+
 
     public GameVisualizer() {
-
         p.timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -34,7 +33,7 @@ public class GameVisualizer extends JPanel {
         p.timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                onModelUpdateEvent();
+                moveRobot();
             }
         }, 0, 10);
         addMouseListener(new MouseAdapter() {
@@ -51,13 +50,14 @@ public class GameVisualizer extends JPanel {
         EventQueue.invokeLater(this::repaint);
     }
 
-    protected void onModelUpdateEvent() {
+    protected void moveRobot() {
         if (!moveOperations.checkDistant()) return;
         moveOperations.robotDirection();
         moveOperations.moveOnX();
         moveOperations.moveOnY();
-        coordinateWindow.updateCoordinateRobot(p.getRobotPositionX(),p.getRobotPositionY());
+        modelUpdateEvent.onModelUpdateEvent(p.getRobotPositionX(),p.getRobotPositionY());
     }
+
 
     @Override
     public void paint(Graphics g) {
