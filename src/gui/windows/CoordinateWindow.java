@@ -42,5 +42,5 @@ public class CoordinateWindow extends JInternalFrame implements PropertyChangeLi
         tableCoordinate.setText(content);
         tableCoordinate.invalidate();
     }
-
 }
+

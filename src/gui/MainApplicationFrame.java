@@ -38,6 +38,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
     private final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
     private final CoordinateWindow coordinateWindow = CoordinateWindow.getInstance();
 
+
     public MainApplicationFrame() {
         //Make the big window be indented 50 pixels from each edge
         //of the screen.
