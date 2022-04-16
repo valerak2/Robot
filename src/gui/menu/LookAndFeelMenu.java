@@ -1,17 +1,26 @@
 package gui.menu;
 
 import gui.MainApplicationFrame;
+import gui.localization.Language;
 import log.Logger;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.ResourceBundle;
 
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
 
 public class LookAndFeelMenu {
+    static ResourceBundle rb = ResourceBundle.getBundle("lang", Language.language);
+    public static String DisplayMode = rb.getString("DisplayMode");
+    public static String systemScheme = rb.getString("systemScheme");
+    public static String universalScheme = rb.getString("universalScheme");
+    public static String setupUniversalScheme = rb.getString("setupUniversalScheme");
+    public static String setupSystemScheme = rb.getString("setupSystemScheme");
+
+    public static JMenu lookAndFeelMenu = new JMenu(DisplayMode);
 
     public static JMenu addLookAndFeelMenu(MainApplicationFrame mainApplicationFrame) {
-        JMenu lookAndFeelMenu = new JMenu("Режим отображения");
         lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
         lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(
                 "Управление режимом отображения приложения");
@@ -21,24 +30,24 @@ public class LookAndFeelMenu {
     }
 
     private static JMenuItem addSystemScheme(MainApplicationFrame mainApplicationFrame) {
-        JMenuItem systemLookAndFeel = new JMenuItem("Системная схема", KeyEvent.VK_S);
+        JMenuItem systemLookAndFeel = new JMenuItem(systemScheme, KeyEvent.VK_S);
         systemLookAndFeel.addActionListener((event) -> {
             setLookAndFeel(UIManager.getSystemLookAndFeelClassName(), mainApplicationFrame);
             mainApplicationFrame.invalidate();
         });
         systemLookAndFeel.addActionListener((event) ->
-                Logger.info("Установлена системная схема"));
+                Logger.info(setupSystemScheme));
         return systemLookAndFeel;
     }
 
     private static JMenuItem addCrossplatformScheme(MainApplicationFrame mainApplicationFrame) {
-        JMenuItem crossplatformLookAndFeel = new JMenuItem("Универсальная схема", KeyEvent.VK_S);
+        JMenuItem crossplatformLookAndFeel = new JMenuItem(universalScheme, KeyEvent.VK_S);
         crossplatformLookAndFeel.addActionListener((event) -> {
             setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName(), mainApplicationFrame);
             mainApplicationFrame.invalidate();
         });
         crossplatformLookAndFeel.addActionListener((event) ->
-                Logger.info("Установлена универсальная схема"));
+                Logger.info(setupUniversalScheme));
         return crossplatformLookAndFeel;
     }
 

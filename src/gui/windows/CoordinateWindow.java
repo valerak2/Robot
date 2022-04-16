@@ -1,5 +1,6 @@
 package gui.windows;
 
+import gui.localization.Language;
 import gui.menu.CloseDialogPanel;
 
 import javax.swing.*;
@@ -7,13 +8,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ResourceBundle;
 
 public class CoordinateWindow extends JInternalFrame implements PropertyChangeListener {
     private static CoordinateWindow INSTANCE;
     TextArea tableCoordinate;
 
     public CoordinateWindow() {
-        super("Координаты робота", true, true, true, true);
+        super(ResourceBundle.getBundle("lang", Language.language).getString("coordinateWindow.name"), true, true, true, true);
         tableCoordinate = new TextArea("");
         tableCoordinate.setEditable(true);
 

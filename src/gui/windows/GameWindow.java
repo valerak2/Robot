@@ -1,6 +1,7 @@
 package gui.windows;
 
 
+import gui.localization.Language;
 import gui.serialization.Data;
 import gui.serialization.state.RobotCustomize;
 import gui.serialization.state.RobotParameters;
@@ -8,7 +9,7 @@ import gui.menu.CloseDialogPanel;
 import logic.CustomizeRobots;
 
 import logic.GameVisualizer;
-
+import java.util.ResourceBundle;
 import java.awt.*;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class GameWindow extends JInternalFrame {
     }
 
     public GameWindow(Data data) {
-        super("Игровое поле", true, true, true, true);
+        super(ResourceBundle.getBundle("lang", Language.language).getString("GameWindow.name"), true, true, true, true);
         m_visualizer = new GameVisualizer();
         setCustomizeRobot(data);
         setParametersRobot(data);
