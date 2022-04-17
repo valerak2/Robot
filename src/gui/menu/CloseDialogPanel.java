@@ -1,8 +1,6 @@
 package gui.menu;
 
 import gui.localization.Language;
-import gui.windows.GameWindow;
-import gui.windows.LogWindow;
 import gui.MainApplicationFrame;
 
 import javax.swing.*;
@@ -52,7 +50,7 @@ public class CloseDialogPanel {
                 ((Component) eventObject.getSource()).setVisible(false);
             }
 
-            if ((eventObject.getSource()).getClass() == MainApplicationFrame.class || (eventObject.getSource()).getClass() == JMenuItem.class ) {
+            if ((eventObject.getSource()).getClass() == MainApplicationFrame.class || (eventObject.getSource()).getClass() == JMenuItem.class) {
                 MainApplicationFrame.saveStates();
                 ((Component) eventObject.getSource()).setVisible(false);
                 System.exit(0);

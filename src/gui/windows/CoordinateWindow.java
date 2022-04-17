@@ -24,6 +24,7 @@ public class CoordinateWindow extends JInternalFrame implements PropertyChangeLi
         getContentPane().add(panel);
         CloseDialogPanel.addJInternalListener(this);
     }
+
     public static CoordinateWindow getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new CoordinateWindow();
@@ -39,8 +40,8 @@ public class CoordinateWindow extends JInternalFrame implements PropertyChangeLi
 
 
     private void printCoordinateRobot(Point2D.Double point) {
-        String content = "X: " + point.x + "\n" +
-                "Y: " + point.y;
+        String content = "X: " + (int) point.x + "\n" +
+                "Y: " + (int) point.y;
         tableCoordinate.setText(content);
         tableCoordinate.invalidate();
     }
