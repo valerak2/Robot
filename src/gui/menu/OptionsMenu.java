@@ -1,13 +1,10 @@
 package gui.menu;
 
+import gui.localization.Language;
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
-
-import gui.MainApplicationFrame;
-import gui.localization.Language;
 
 public class OptionsMenu {
     static ResourceBundle rb = ResourceBundle.getBundle("lang", Language.language);
