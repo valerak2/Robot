@@ -60,6 +60,17 @@ public class MoveOperations {
             }
         }
     }
+
+    public void move() {
+        Vector targetVector = new Vector(p.getTargetPositionX(), p.getTargetPositionY());
+        Vector robotVector = new Vector(p.getRobotPositionX(), p.getRobotPositionY());
+        Vector speed = new Vector((p.getTargetPositionX() - p.getRobotPositionX()), p.getTargetPositionY() - p.getRobotPositionY()); // / 454.54
+
+    }
+
+
+
+
     /*public void robotDirectionTEST() {
         Point2D.Double robotPoint = new Point2D.Double(p.getRobotPositionX(), p.getRobotPositionY());
         Point2D.Double targetPoint = new Point2D.Double(p.getTargetPositionX(), p.getTargetPositionY());

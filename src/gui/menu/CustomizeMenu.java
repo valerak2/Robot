@@ -8,30 +8,50 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 
+enum Colors {
+    Red(Language.rb.getString("RED")),
+    Green(Language.rb.getString("GREEN")),
+    Blue(Language.rb.getString("BLUE")),
+    Orange(Language.rb.getString("ORANGE")),
+    Magenta(Language.rb.getString("MAGENTA")),
+    Gray(Language.rb.getString("GRAY")),
+    Cyan(Language.rb.getString("CYAN")),
+    Pink(Language.rb.getString("PINK")),
+    White(Language.rb.getString("WHITE")),
+    Yellow(Language.rb.getString("YELLOW")),
+    Light_Gray(Language.rb.getString("LIGHT_GRAY"));
+    private String color;
+
+    Colors(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColors(String color) {
+        this.color = color;
+    }
+}
+
+
 public class CustomizeMenu {
 
-    static ResourceBundle rb = ResourceBundle.getBundle("lang", Language.language);
-    public static String RED = rb.getString("RED");
-    public static String GREEN = rb.getString("GREEN");
-    public static String BLUE = rb.getString("BLUE");
-    public static String ORANGE = rb.getString("ORANGE");
-    public static String MAGENTA = rb.getString("MAGENTA");
-    public static String GRAY = rb.getString("GRAY");
-    public static String CYAN = rb.getString("CYAN");
-    public static String PINK = rb.getString("PINK");
-    public static String WHITE = rb.getString("WHITE");
-    public static String YELLOW = rb.getString("YELLOW");
-    public static String LIGHT_GRAY = rb.getString("LIGHT_GRAY");
-    public static String color = rb.getString("color");
-    public static String Figure = rb.getString("Figure");
-    public static String oval = rb.getString("Oval");
-    public static String rectangle = rb.getString("Rectangle");
-    public static String customMenu = rb.getString("customizeMenu");
+    private static String color = Language.rb.getString("color");
+    private static String Figure = Language.rb.getString("Figure");
+    private static String oval = Language.rb.getString("Oval");
+    private static String rectangle = Language.rb.getString("Rectangle");
+    private static String customMenu = Language.rb.getString("customizeMenu");
 
 
     CustomizeRobots customizeRobots = new CustomizeRobots();
 
     public static JMenu customizeMenu = new JMenu(customMenu);
+
+    public static void setCustomMenu(String customMenu) {
+        CustomizeMenu.customMenu = customMenu;
+    }
 
     public JMenu addCustomizeMenu() {
         customizeMenu.setMnemonic(KeyEvent.VK_T);
@@ -44,17 +64,17 @@ public class CustomizeMenu {
         JMenu colors = new JMenu(color);
         colors.setMnemonic(KeyEvent.VK_T);
         {
-            colors.add(setColor(Color.RED, RED));
-            colors.add(setColor(Color.GREEN, GREEN));
-            colors.add(setColor(Color.BLUE, BLUE));
-            colors.add(setColor(Color.ORANGE, ORANGE));
-            colors.add(setColor(Color.MAGENTA, MAGENTA));
-            colors.add(setColor(Color.GRAY, GRAY));
-            colors.add(setColor(Color.CYAN, CYAN));
-            colors.add(setColor(Color.PINK, PINK));
-            colors.add(setColor(Color.WHITE, WHITE));
-            colors.add(setColor(Color.YELLOW, YELLOW));
-            colors.add(setColor(Color.LIGHT_GRAY, LIGHT_GRAY));
+            colors.add(setColor(Color.RED, Colors.Red.getColor()));
+            colors.add(setColor(Color.GREEN, Colors.Green.getColor()));
+            colors.add(setColor(Color.BLUE, Colors.Blue.getColor()));
+            colors.add(setColor(Color.ORANGE, Colors.Orange.getColor()));
+            colors.add(setColor(Color.MAGENTA, Colors.Magenta.getColor()));
+            colors.add(setColor(Color.GRAY, Colors.Gray.getColor()));
+            colors.add(setColor(Color.CYAN, Colors.Cyan.getColor()));
+            colors.add(setColor(Color.PINK, Colors.Pink.getColor()));
+            colors.add(setColor(Color.WHITE, Colors.White.getColor()));
+            colors.add(setColor(Color.YELLOW, Colors.Yellow.getColor()));
+            colors.add(setColor(Color.LIGHT_GRAY, Colors.Light_Gray.getColor()));
 
         }
         return colors;
