@@ -1,11 +1,11 @@
 package gui.windows;
 
+import game.objectsOnTheField.movingObjects.robot.Robot;
 import gui.localization.Language;
 import gui.menu.CloseDialogPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ResourceBundle;
@@ -34,14 +34,31 @@ public class CoordinateWindow extends JInternalFrame implements PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        this.printCoordinateRobot((Point2D.Double) evt.getNewValue());
+        //printCoordinateRobot((Point) evt.getNewValue());
+        printP((Robot []) evt.getNewValue());
 
     }
 
+    private void printP(Robot[] robots) {
+        Robot firstRobot = robots[0];
+        Robot secondRobot = robots[0];
+        String content = "Робот 1: \n"
+                + "     X: " + firstRobot.getPosition().x + "\n"
+                + "     Y: " + firstRobot.getPosition().y + "\n"
+                + "     жизни: " + firstRobot.getLife() + "\n"
+                + "Робот 2: \n"
+                + "     X: " + secondRobot.getPosition().x + "\n"
+                + "     Y: " + secondRobot.getPosition().y + "\n"
+                + "     жизни: " + secondRobot.getLife() + "\n"
+                + "Очки: " + Robot.score;
+        tableCoordinate.setText(content);
+        tableCoordinate.invalidate();
+    }
 
-    private void printCoordinateRobot(Point2D.Double point) {
-        String content = "X: " + (int) point.x + "\n" +
-                "Y: " + (int) point.y;
+
+    private void printCoordinateRobot(Point point) {
+        String content = "X: " + point.x + "\n" +
+                "Y: " + point.y;
         tableCoordinate.setText(content);
         tableCoordinate.invalidate();
     }
