@@ -1,15 +1,8 @@
-package logic.operations;
+package game.logic.operations;
 
-import logic.Parameters;
-
-
-import java.awt.geom.Point2D;
-
-import static logic.operations.MathOperations.*;
-import static logic.operations.MathOperations.asNormalizedRadians;
 
 public class MoveOperations {
-    Parameters p;
+  /*  Parameters p;
 
     public MoveOperations(Parameters p) {
         this.p = p;
@@ -19,17 +12,17 @@ public class MoveOperations {
         double distance = distance(
                 p.getTargetPositionX(),
                 p.getTargetPositionY(),
-                p.getRobotPositionX(),
-                p.getRobotPositionY());
+                p.getX(),
+                p.getY());
         return !(distance < 0.5);
     }
 
     public void robotDirection() {
         double angleToTarget = angleTo(
-                p.getRobotPositionX(),
-                p.getRobotPositionY(),
+                p.getX(),
+                p.getY(),
                 p.getTargetPositionX(),
-                p.getRobotPositionY());
+                p.getY());
         double angularVelocity = 0;
         if (angleToTarget > p.getRobotDirection()) {
             angularVelocity = Parameters.maxAngularVelocity;
@@ -41,25 +34,34 @@ public class MoveOperations {
         p.setRobotDirection(p.getRobotDirection() + angularVelocity * Parameters.duration);
     }
 
-    public void moveOnX() {
-        if (p.getRobotPositionX() != p.getTargetPositionX()) {
-            if (p.getRobotPositionX() < p.getTargetPositionX()) {
-                p.setRobotPositionX((p.getRobotPositionX() + 1));
+    public int moveOnX() {
+        if (p.getX() != p.getTargetPositionX()) {
+            if (p.getX() < p.getTargetPositionX()) {
+                return (p.getX() + 1);
             } else {
-                p.setRobotPositionX((p.getRobotPositionX() - 1));
+                return (p.getX() - 1);
             }
         }
+        return p.getX();
     }
 
-    public void moveOnY() {
-        if (p.getRobotPositionY() != p.getTargetPositionY()) {
-            if (p.getRobotPositionY() < p.getTargetPositionY()) {
-                p.setRobotPositionY((p.getRobotPositionY() + 1));
+    public int moveOnY() {
+        if (p.getY() != p.getTargetPositionY()) {
+            if (p.getY() < p.getTargetPositionY()) {
+                return (p.getY() + 1);
             } else {
-                p.setRobotPositionY((p.getRobotPositionY() - 1));
+                return(p.getY() - 1);
             }
         }
+        return p.getY();
     }
+    public void rotate(double n)
+    {
+        double rx = (p.getX() * Math.cos(n)) - (p.getY() * Math.sin(n));
+        double ry = (p.getX() * Math.sin(n)) + (p.getY() * Math.cos(n));
+        //r.setX(rx);
+        //r.getY(ry);
+    }*/
     /*public void robotDirectionTEST() {
         Point2D.Double robotPoint = new Point2D.Double(p.getRobotPositionX(), p.getRobotPositionY());
         Point2D.Double targetPoint = new Point2D.Double(p.getTargetPositionX(), p.getTargetPositionY());

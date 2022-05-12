@@ -6,9 +6,10 @@ import gui.serialization.Data;
 import gui.serialization.state.RobotCustomize;
 import gui.serialization.state.RobotParameters;
 import gui.menu.CloseDialogPanel;
-import logic.CustomizeRobots;
+import game.objectsOnTheField.movingObjects.robot.CustomizeRobots;
 
-import logic.GameVisualizer;
+import game.logic.GameVisualizer;
+
 import java.util.ResourceBundle;
 import java.awt.*;
 
@@ -43,12 +44,13 @@ public class GameWindow extends JInternalFrame {
 
     private void setParametersRobot(Data data) {
         RobotParameters robotParameters = (RobotParameters) data.getState("parameters");
-        m_visualizer.getP().builderParameters(
+        m_visualizer.createsRobots(robotParameters);
+        /*m_visualizer.getP().builderParameters(
                 robotParameters.robotPositionX(),
                 robotParameters.robotPositionY(),
                 robotParameters.robotDirection(),
                 robotParameters.targetPositionX(),
-                robotParameters.targetPositionY());
+                robotParameters.targetPositionY());*/
 
     }
 }

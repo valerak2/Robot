@@ -1,7 +1,6 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -24,7 +23,7 @@ import gui.windows.CoordinateWindow;
 import gui.windows.GameWindow;
 import gui.windows.LogWindow;
 import log.Logger;
-import logic.CustomizeRobots;
+import game.objectsOnTheField.movingObjects.robot.CustomizeRobots;
 
 /**
  * Что требуется сделать:
@@ -72,7 +71,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
             Language.setLanguage(optionState.language());
     }
 
-    protected <Window extends JInternalFrame> Window createWindow(WindowState windowParams, Window window) {
+    private <Window extends JInternalFrame> Window createWindow(WindowState windowParams, Window window) {
         window.setLocation(windowParams.positionX(), windowParams.positionY());
         window.setSize(windowParams.width(), windowParams.height());
         try {
@@ -90,7 +89,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
     }
 
 
-    protected void addWindow(JInternalFrame frame) {
+    private void addWindow(JInternalFrame frame) {
         desktopPane.add(frame);
         frame.setVisible(true);
     }
@@ -138,12 +137,12 @@ public class MainApplicationFrame extends JFrame implements Serializable {
                 CustomizeRobots.getColorRobots(),
                 CustomizeRobots.getFigureRobots()));
 
-        data.setState("parameters", new RobotParameters(
-                gameWindow.getM_visualizer().getP().getRobotPositionX(),
-                gameWindow.getM_visualizer().getP().getRobotPositionY(),
+        /*data.setState("parameters", new RobotParameters(
+                gameWindow.getM_visualizer().getP().getX(),
+                gameWindow.getM_visualizer().getP().getY(),
                 gameWindow.getM_visualizer().getP().getRobotDirection(),
                 gameWindow.getM_visualizer().getP().getTargetPositionX(),
-                gameWindow.getM_visualizer().getP().getTargetPositionY()));
+                gameWindow.getM_visualizer().getP().getTargetPositionY()));*/
         data.setState("options", new OptionState(Language.getLanguageString(), " "));
         data.writeObject(file);
 

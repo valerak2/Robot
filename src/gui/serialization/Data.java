@@ -1,15 +1,22 @@
 package gui.serialization;
 
+import com.mysql.cj.util.StringUtils;
 import gui.serialization.state.OptionState;
 import gui.serialization.state.RobotCustomize;
 import gui.serialization.state.RobotParameters;
 import gui.serialization.state.WindowState;
 
+
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+/** Класс с реализацией сериализация и десериализации*/
 public class Data {
+    /** Словарь для хранения различных
+     * состояний (идентификатор состояния: класс-запись состояния) */
     private final Map<String, Record> windowAndRobotState;
 
     public void setState(String objectName, Record state) {
@@ -36,13 +43,13 @@ public class Data {
         }
         return windowAndRobotState.get(key);
     }
-
+/** Конструктор класса, при создании экземляра класса, идет десериализация состояний приложения*/
     public Data() {
         String file = System.getProperty("user.home") + File.separator + "window_and_robot_states";
         Map<String, Record> object = readObject(file);
         windowAndRobotState = Objects.requireNonNullElseGet(object, HashMap::new);
     }
-
+/** Чтение объектов с файла */
     public void writeObject(String path) {
         try {
             FileWriter fileWriter = new FileWriter(path);
@@ -52,18 +59,18 @@ public class Data {
             fileWriter.close();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println("daa");
         }
     }
-
-    public Map<String, Record> readObject(String path) {
+    /** Чтение объектов с файла */
+    private Map<String, Record> readObject(String path) {
         try {
             FileReader fileReader = new FileReader(path);
             BufferedReader reader = new BufferedReader(fileReader);
             Map<String, Record> restoredData = new HashMap<>();
-            String line;
-            while ((line = reader.readLine()) != null) {
-               fillRestoredData(line, restoredData);
+            String lineInFile;
+            while ((lineInFile = reader.readLine()) != null) {
+               fillRestoredData(lineInFile, restoredData);
             }
             reader.close();
             fileReader.close();
@@ -97,7 +104,8 @@ public class Data {
                     Integer.parseInt(prm.get(3)),
                     Boolean.parseBoolean(prm.get(4)),
                     Boolean.parseBoolean(prm.get(5).replace("]", ""))));
-            case "coordinateWindow" -> restoredData.put("coordinateWindow", new WindowState(Integer.parseInt(prm.get(0)),
+            case "coordinateWindow" -> restoredData.put("coordinateWindow", new WindowState(
+                    Integer.parseInt(prm.get(0)),
                     Integer.parseInt(prm.get(1)),
                     Integer.parseInt(prm.get(2)),
                     Integer.parseInt(prm.get(3)),
@@ -113,8 +121,8 @@ public class Data {
                         prm.get(3).replace("]", "")));
             }
             case "parameters" -> restoredData.put("parameters", new RobotParameters(
-                    Double.parseDouble(prm.get(0)),
-                    Double.parseDouble(prm.get(1)),
+                    Integer.parseInt(prm.get(0)),
+                    Integer.parseInt(prm.get(1)),
                     Double.parseDouble(prm.get(2)),
                     Integer.parseInt(prm.get(3)),
                     Integer.parseInt(prm.get(4).replace("]", ""))));
@@ -124,7 +132,7 @@ public class Data {
     }
 
 
-    public void createFile(String path) {
+    private void createFile(String path) {
         try {
             File file = new File(path);
             if (file.createNewFile())

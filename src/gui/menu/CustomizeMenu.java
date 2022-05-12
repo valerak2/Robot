@@ -1,7 +1,7 @@
 package gui.menu;
 
 import gui.localization.Language;
-import logic.CustomizeRobots;
+import game.objectsOnTheField.movingObjects.robot.CustomizeRobots;
 
 import javax.swing.*;
 import java.awt.*;
