@@ -1,4 +1,4 @@
-package logic;
+package game.objectsOnTheField.movingObjects.robot;
 
 import java.awt.*;
 

@@ -11,7 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.EventObject;
 import java.util.ResourceBundle;
-
+/**
+ *@author slave
+ */
 public class CloseDialogPanel {
     static ResourceBundle rb = ResourceBundle.getBundle("lang", Language.language);
     public static String yesOption = rb.getString("yesOption");

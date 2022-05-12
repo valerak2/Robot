@@ -1,9 +1,9 @@
-package logic.operations;
+package game.objectsOnTheField.movingObjects.robot;
 
 class MathOperations {
-    static double distance(double x1, double y1, double x2, double y2) {
-        double diffX = x1 - x2;
-        double diffY = y1 - y2;
+    static double distance(int x1, int y1, int x2, int y2) {
+        int diffX = x1 - x2;
+        int diffY = y1 - y2;
         return Math.sqrt(diffX * diffX + diffY * diffY);
     }
 
