@@ -1,16 +1,14 @@
 package game.logic;
 
-import game.objectsOnTheField.ObjectOnTheField;
-import game.objectsOnTheField.movingObjects.enemies.Hunter;
-import game.objectsOnTheField.movingObjects.robot.ModelUpdateEvent;
-import game.objectsOnTheField.movingObjects.robot.Robot;
-import game.objectsOnTheField.movingObjects.Shot;
-import game.objectsOnTheField.stationaryObjects.TargetPoint;
-import game.objectsOnTheField.stationaryObjects.bonuses.Bonus;
-import game.objectsOnTheField.stationaryObjects.bonuses.Heart;
-import game.objectsOnTheField.stationaryObjects.bonuses.ResetRobot;
-import game.logic.operations.PaintOperations;
-import game.objectsOnTheField.stationaryObjects.bonuses.Speed;
+import game.objectsOnField.ObjectOnTheField;
+import game.objectsOnField.movingObjects.enemies.Hunter;
+import game.objectsOnField.movingObjects.robot.CrashedRobot;
+import game.objectsOnField.movingObjects.robot.ModelUpdateEvent;
+import game.objectsOnField.movingObjects.robot.Robot;
+import game.objectsOnField.movingObjects.Shot;
+import game.objectsOnField.stationaryObjects.ScorePoint;
+import game.objectsOnField.stationaryObjects.bonuses.Bonus;
+import game.objectsOnField.stationaryObjects.obstacle.Obstacle;
 import gui.serialization.state.RobotParameters;
 
 import javax.swing.*;
@@ -26,15 +24,22 @@ import java.util.Timer;
 public class GameVisualizer extends JPanel {
 
 
-    PaintOperations paintOperations = new PaintOperations();
     ModelUpdateEvent modelUpdateEvent = new ModelUpdateEvent();
-    Graphics2D g2d;
+    final java.util.Timer timer = new Timer("events generator", true);
+
+    //Graphics2D g2d;
+    Creator creator = new Creator();
+    Painter painter = new Painter();
     Robot firstRobot = new Robot(new Point(0, 0), new Point(0, 0));
     Robot secondRobot = new Robot(new Point(0, 0), new Point(0, 0));
-    Map<String, ObjectOnTheField> objects;
-    final java.util.Timer timer = new Timer("events generator", true);
+    ScorePoint scorePoint = creator.scorePoint();
+    Boolean gameOver = false;
     ArrayList<Bonus> bonuses = new ArrayList<>();
     ArrayList<Shot> shots = new ArrayList<>();
+    ArrayList<Hunter> hunters = new ArrayList<>();
+    ArrayList<Obstacle> obstacles = new ArrayList<>();
+    //TimerLogic timerLogic = new TimerLogic();
+    Checker checker = new Checker(this);
 
     public GameVisualizer() {
         timer.schedule(new TimerTask() {
@@ -42,34 +47,17 @@ public class GameVisualizer extends JPanel {
             public void run() {
                 onRedrawEvent();
             }
-        }, 0, 50);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                moveRobot1(firstRobot);
-            }
-        }, 0, 12);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                moveRobot1(secondRobot);
-            }
-        }, 0, 4);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Shot shot : shots) {
-                    shot.move();
-                }
-                ;
-            }
-        }, 0, 10);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                bonuses.add(randomBonus());
-            }
-        }, 0, 600);
+        }, 0, 5);
+        timersForMove();
+        /*timerLogic.timersForCreateObject(timer,
+                bonuses,
+                hunters,
+                obstacles,
+                firstRobot,
+                secondRobot,
+                modelUpdateEvent
+        );*/
+        timersForCreateObject();
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -80,10 +68,10 @@ public class GameVisualizer extends JPanel {
                         secondRobot.setTarget(e.getPoint());
                         //case 2: shots.add(secondRobot.shot()); //System.out.println('2');
                     case 3:
-                        shots.add(secondRobot.shot());
+                        if (secondRobot.shot() != null) {
+                            shots.add(secondRobot.shot());
+                        }
                 }
-                //System.out.println(e.getPoint());
-                //repaint();
             }
 
         });
@@ -91,9 +79,77 @@ public class GameVisualizer extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
+                System.out.println(e.getKeyLocation());
             }
         });
         setDoubleBuffered(true);
+    }
+
+    private void timersForMove() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (Shot shot : shots) {
+                    shot.move();
+                }
+
+            }
+        }, 0, 10);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                moveRobots(firstRobot);
+            }
+        }, 0, 12);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                moveRobots(secondRobot);
+            }
+        }, 0, 4);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (Hunter hunter : hunters) {
+                    hunter.move();
+                }
+
+            }
+        }, 0, 30);
+
+    }
+
+    private void timersForCreateObject() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                bonuses.add(creator.randomBonus());
+            }
+        }, 0, 1200);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                obstacles.add(creator.randomObstacle());
+            }
+        }, 0, 3000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Hunter hunter = creator.hunter(firstRobot);
+                hunter.indexRobot = 0;
+                hunters.add(hunter);
+                modelUpdateEvent.addPropertyChangeListener(hunter);
+            }
+        }, 0, 2500);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Hunter hunter = creator.hunter(secondRobot);
+                hunter.indexRobot = 1;
+                hunters.add(hunter);
+                modelUpdateEvent.addPropertyChangeListener(hunter);
+            }
+        }, 0, 1200);
     }
 
     protected void onRedrawEvent() {
@@ -107,88 +163,42 @@ public class GameVisualizer extends JPanel {
         secondRobot.setLife(3);
     }
 
-    final int min = 0;
-    final int max = 1920;
-
-    public Point randomPoint() {
-        int x = (int) ((Math.random() * (max - min)) + min);
-        int y = (int) ((Math.random() * (max - min)) + min);
-        return new Point(x, y);
-    }
-
-    public Bonus randomBonus() {
-        Random random = new Random();
-        int bonusID = random.nextInt(3);
-        return switch (bonusID) {
-            case 0 -> new Heart(randomPoint());
-            case 1 -> new Speed(randomPoint());
-            case 2 -> new ResetRobot(randomPoint());
-            default -> throw new IllegalStateException("Unexpected value: " + bonusID);
-        };
-    }
-
-
-    protected void moveRobot1(Robot robot) {
+    protected void moveRobots(Robot robot) {
         robot.move();
         modelUpdateEvent.onModelUpdateEvent(firstRobot, secondRobot);
-
     }
-
-
-    TargetPoint targetPoint = new TargetPoint(new Point(100, 100));
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        paintBackground(g2d);
-        g.fillRect(0, 0, 1920, 1080);
-        paintOperations.drawTarget1(g2d, firstRobot.getTarget());
-        targetPoint.draw(g2d);
-        //g2d.rotate(20);
+        if (gameOver) {
+            painter.printGameOver(g2d);
+        } else paintObjects(g2d);
+
+
+    }
+
+
+    private void paintObjects(Graphics2D g2d) {
+        painter.paintBackground(g2d);
+        scorePoint.draw(g2d);
         firstRobot.draw(g2d);
         secondRobot.draw(g2d);
-        /*paintOperations.drawRobot1(g2d, firstRobot.getPosition());
-        paintOperations.drawRobot1(g2d, secondRobot.getPosition());*/
-        for (Bonus bonus : bonuses) {
-            bonus.draw(g2d);
-        }
-        for (Shot shot : shots) {
-            shot.draw(g2d);
-        }
-        targetPoint.checkCollision(g2d, firstRobot);
+        firstRobot.drawTarget(g2d);
+        painter.drawArrayObjects(g2d, bonuses);
+        painter.drawArrayObjects(g2d, shots);
+        painter.drawArrayObjects(g2d, obstacles);
+        painter.drawArrayObjects(g2d, hunters);
         checkCollisions(g2d);
-
-
     }
 
-
-    private void paintRobot(Graphics g) {
-
-    }
 
     public void checkCollisions(Graphics2D g) {
-        ArrayList<ObjectOnTheField> crashed = new ArrayList<>();
-        for (Bonus bonus : bonuses) {
-            if (bonus.checkCollision(g, firstRobot)) {
-                bonus.effect(firstRobot);
-                crashed.add(bonus);
-            }
-            if (bonus.checkCollision(g, secondRobot)) {
-                bonus.effect(secondRobot);
-                crashed.add(bonus);
-            }
-        }
-        for (Object bonus : crashed){
-            bonuses.remove(bonus);
-        }
-
-
+        checker.collisionsTarget(g);
+        checker.collisionsObjects(g, bonuses);
+        checker.collisionsObjects(g, obstacles);
+        checker.collisionsObjects(g, hunters);
     }
 
-    private void paintBackground(Graphics g) {
-        g.setColor(new Color(95, 38, 114));
-        g.fillRect(0, 0, 1920, 1080);
-
-    }
 }

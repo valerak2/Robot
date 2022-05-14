@@ -1,6 +1,6 @@
 package gui.windows;
 
-import game.objectsOnTheField.movingObjects.robot.Robot;
+import game.objectsOnField.movingObjects.robot.Robot;
 import gui.localization.Language;
 import gui.menu.CloseDialogPanel;
 
@@ -41,7 +41,7 @@ public class CoordinateWindow extends JInternalFrame implements PropertyChangeLi
 
     private void printP(Robot[] robots) {
         Robot firstRobot = robots[0];
-        Robot secondRobot = robots[0];
+        Robot secondRobot = robots[1];
         String content = "Робот 1: \n"
                 + "     X: " + firstRobot.getPosition().x + "\n"
                 + "     Y: " + firstRobot.getPosition().y + "\n"
@@ -55,12 +55,5 @@ public class CoordinateWindow extends JInternalFrame implements PropertyChangeLi
         tableCoordinate.invalidate();
     }
 
-
-    private void printCoordinateRobot(Point point) {
-        String content = "X: " + point.x + "\n" +
-                "Y: " + point.y;
-        tableCoordinate.setText(content);
-        tableCoordinate.invalidate();
-    }
 }
 

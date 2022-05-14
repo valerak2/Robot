@@ -1,6 +1,7 @@
 package gui.menu;
 
 import gui.localization.Language;
+import gui.windows.GameWindow;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

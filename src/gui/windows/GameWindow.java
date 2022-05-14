@@ -6,7 +6,7 @@ import gui.serialization.Data;
 import gui.serialization.state.RobotCustomize;
 import gui.serialization.state.RobotParameters;
 import gui.menu.CloseDialogPanel;
-import game.objectsOnTheField.movingObjects.robot.CustomizeRobots;
+import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 
 import game.logic.GameVisualizer;
 

@@ -11,7 +11,6 @@ import gui.localization.Language;
 import gui.serialization.Data;
 import gui.serialization.state.OptionState;
 import gui.serialization.state.RobotCustomize;
-import gui.serialization.state.RobotParameters;
 import gui.serialization.state.WindowState;
 
 import gui.menu.*;
@@ -23,7 +22,7 @@ import gui.windows.CoordinateWindow;
 import gui.windows.GameWindow;
 import gui.windows.LogWindow;
 import log.Logger;
-import game.objectsOnTheField.movingObjects.robot.CustomizeRobots;
+import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 
 /**
  * Что требуется сделать:
