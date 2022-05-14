@@ -24,6 +24,7 @@ import gui.windows.LogWindow;
 import log.Logger;
 import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 
+
 /**
  * Что требуется сделать:
  * 1. Метод создания меню перегружен функционалом и трудно читается.

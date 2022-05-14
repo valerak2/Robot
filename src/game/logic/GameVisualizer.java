@@ -1,8 +1,6 @@
 package game.logic;
 
-import game.objectsOnField.ObjectOnTheField;
 import game.objectsOnField.movingObjects.enemies.Hunter;
-import game.objectsOnField.movingObjects.robot.CrashedRobot;
 import game.objectsOnField.movingObjects.robot.ModelUpdateEvent;
 import game.objectsOnField.movingObjects.robot.Robot;
 import game.objectsOnField.movingObjects.Shot;

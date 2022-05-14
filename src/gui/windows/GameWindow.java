@@ -8,6 +8,7 @@ import gui.serialization.state.RobotParameters;
 import gui.menu.CloseDialogPanel;
 import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 
+
 import game.logic.GameVisualizer;
 
 import java.util.ResourceBundle;
