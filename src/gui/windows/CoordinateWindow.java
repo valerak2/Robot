@@ -1,6 +1,8 @@
 package gui.windows;
 
-import game.objectsOnTheField.movingObjects.robot.Robot;
+
+import game.objectsOnField.movingObjects.robot.Robot;
+
 import gui.localization.Language;
 import gui.menu.CloseDialogPanel;
 
@@ -39,28 +41,22 @@ public class CoordinateWindow extends JInternalFrame implements PropertyChangeLi
 
     }
 
+
     private void printP(Robot[] robots) {
         Robot firstRobot = robots[0];
-        Robot secondRobot = robots[0];
-        String content = "Робот 1: \n"
+        Robot secondRobot = robots[1];
+        String content = "Р РѕР±РѕС‚ 1: \n"
                 + "     X: " + firstRobot.getPosition().x + "\n"
                 + "     Y: " + firstRobot.getPosition().y + "\n"
-                + "     жизни: " + firstRobot.getLife() + "\n"
-                + "Робот 2: \n"
+                + "     Р¶РёР·РЅРё: " + firstRobot.getLife() + "\n"
+                + "Р РѕР±РѕС‚ 2: \n"
                 + "     X: " + secondRobot.getPosition().x + "\n"
                 + "     Y: " + secondRobot.getPosition().y + "\n"
-                + "     жизни: " + secondRobot.getLife() + "\n"
-                + "Очки: " + Robot.score;
+                + "     Р¶РёР·РЅРё: " + secondRobot.getLife() + "\n"
+                + "РћС‡РєРё: " + Robot.score;
         tableCoordinate.setText(content);
         tableCoordinate.invalidate();
     }
 
-
-    private void printCoordinateRobot(Point point) {
-        String content = "X: " + point.x + "\n" +
-                "Y: " + point.y;
-        tableCoordinate.setText(content);
-        tableCoordinate.invalidate();
-    }
 }
 
