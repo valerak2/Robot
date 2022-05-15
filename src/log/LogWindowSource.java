@@ -2,6 +2,7 @@ package log;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Что починить:
@@ -16,13 +17,13 @@ public class LogWindowSource {
 
     private final int m_iQueueLength;
 
-    private final ArrayDeque<LogEntry> m_messages;
+    private ArrayBlockingQueue<LogEntry> m_messages;
     private final ArrayList<LogChangeListener> m_listeners;
     private volatile LogChangeListener[] m_activeListeners;
 
     public LogWindowSource(int iQueueLength) {
         m_iQueueLength = iQueueLength;
-        m_messages = new ArrayDeque<>();
+        m_messages = new ArrayBlockingQueue<>(iQueueLength);
         m_listeners = new ArrayList<>();
     }
 
@@ -42,10 +43,11 @@ public class LogWindowSource {
 
     public void append(LogLevel logLevel, String strMessage) {
         LogEntry entry = new LogEntry(logLevel, strMessage);
-        if (m_messages.size() >= m_iQueueLength) {
-            m_messages.removeFirst();
+        boolean appendInTail = m_messages.offer(entry);
+        while (!appendInTail) {
+            m_messages.poll();
+            appendInTail = m_messages.offer(entry);
         }
-        m_messages.addLast(entry);
         LogChangeListener[] activeListeners = m_activeListeners;
         if (activeListeners == null) {
             synchronized (m_listeners) {
