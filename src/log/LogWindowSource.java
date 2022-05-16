@@ -2,6 +2,7 @@ package log;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -67,16 +68,11 @@ public class LogWindowSource {
         return m_messages.size();
     }
 
-    /*    public Iterable<LogEntry> range(int startFrom, int count) {
-            if (startFrom < 0 || startFrom >= m_messages.size()) {
-                return Collections.emptyList();
-            }
-            int indexTo = Math.min(startFrom + count, m_messages.size());
-            return m_messages.subList(startFrom, indexTo);
-        }*/
-
     public Iterable<LogEntry> all() {
-        return m_messages;
+        Iterator<LogEntry> iterator = m_messages.iterator();
+        ArrayList<LogEntry> res = new ArrayList<>();
+        iterator.forEachRemaining(res::add);
+        return res;
     }
 
     public int getM_iQueueLength() {
