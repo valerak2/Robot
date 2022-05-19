@@ -1,184 +1,120 @@
 package game.logic;
 
-import game.objectsOnField.movingObjects.enemies.Hunter;
+import game.logic.checker.Checker;
+import game.logic.checker.CheckerLifeRobot;
+import game.logic.timer.Creator;
+import game.logic.timer.TimerCreator;
+import game.logic.timer.TimerMoveObject;
+import game.objectsOnField.movingObjects.MovingObjects;
 import game.objectsOnField.movingObjects.robot.ModelUpdateEvent;
 import game.objectsOnField.movingObjects.robot.Robot;
 import game.objectsOnField.movingObjects.Shot;
 import game.objectsOnField.stationaryObjects.ScorePoint;
 import game.objectsOnField.stationaryObjects.bonuses.Bonus;
 import game.objectsOnField.stationaryObjects.obstacle.Obstacle;
-import gui.serialization.state.RobotParameters;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.*;
-import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class GameVisualizer extends JPanel {
 
 
-    ModelUpdateEvent modelUpdateEvent = new ModelUpdateEvent();
-    final java.util.Timer timer = new Timer("events generator", true);
+    public ModelUpdateEvent modelUpdateEvent = new ModelUpdateEvent();
 
-    //Graphics2D g2d;
-    Creator creator = new Creator();
+    public Creator creator = new Creator();
     Painter painter = new Painter();
-    Robot firstRobot = new Robot(new Point(0, 0), new Point(0, 0));
-    Robot secondRobot = new Robot(new Point(0, 0), new Point(0, 0));
-    ScorePoint scorePoint = creator.scorePoint();
-    Boolean gameOver = false;
-    ArrayList<Bonus> bonuses = new ArrayList<>();
-    ArrayList<Shot> shots = new ArrayList<>();
-    ArrayList<Hunter> hunters = new ArrayList<>();
-    ArrayList<Obstacle> obstacles = new ArrayList<>();
-    //TimerLogic timerLogic = new TimerLogic();
-    Checker checker = new Checker(this);
+    public volatile Robot firstRobot = new Robot(new Point(0, 0), new Point(0, 0));
+    public volatile Robot secondRobot = new Robot(new Point(0, 0), new Point(0, 0));
+    public ScorePoint scorePoint = creator.scorePoint();
+    public volatile Boolean gameOver = false;
+    public volatile ArrayList<Bonus> bonuses = new ArrayList<>();
+    public volatile ArrayList<Shot> shots = new ArrayList<>();
+    public volatile ArrayList<Obstacle> obstacles = new ArrayList<>();
+    public volatile ArrayList<MovingObjects> enemies = new ArrayList<>();
+    public Graphics2D g2d;
 
     public GameVisualizer() {
-        timer.schedule(new TimerTask() {
+        createRobot();
+        ScheduledExecutorService painter = Executors.newSingleThreadScheduledExecutor();
+        painter.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 onRedrawEvent();
             }
-        }, 0, 5);
-        timersForMove();
-        /*timerLogic.timersForCreateObject(timer,
-                bonuses,
-                hunters,
-                obstacles,
-                firstRobot,
-                secondRobot,
-                modelUpdateEvent
-        );*/
-        timersForCreateObject();
+        }, 0, 3, TimeUnit.MILLISECONDS);
+
+        TimerCreator timerCreator = new TimerCreator(this);
+        TimerMoveObject timerMoveObject = new TimerMoveObject(this);
+        Checker checker = new Checker(this);
+        checker.run();
+        timerCreator.run();
+        timerMoveObject.run();
+        checker.run();
+        ScheduledExecutorService executor1 = Executors.newSingleThreadScheduledExecutor();
+        CheckerLifeRobot checkerLifeRobot = new CheckerLifeRobot(this);
+        executor1.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                checkerLifeRobot.run();
+            }
+        }, 0, 12, TimeUnit.MILLISECONDS);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getButton());
                 switch (e.getButton()) {
                     case 1:
-                        firstRobot.setTarget(e.getPoint());//System.out.println('1');
+                        firstRobot.setTarget(e.getPoint());
                         secondRobot.setTarget(e.getPoint());
-                        //case 2: shots.add(secondRobot.shot()); //System.out.println('2');
                     case 3:
                         if (secondRobot.shot() != null) {
-                            shots.add(secondRobot.shot());
+                            Shot shot = secondRobot.shot();
+                            shot.setTarget(creator.randomPoint());
+                            shots.add(shot);
                         }
                 }
             }
 
         });
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                System.out.println(e.getKeyLocation());
-            }
-        });
-        setDoubleBuffered(true);
-    }
-
-    private void timersForMove() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Shot shot : shots) {
-                    shot.move();
-                }
-
-            }
-        }, 0, 10);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                moveRobots(firstRobot);
-            }
-        }, 0, 12);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                moveRobots(secondRobot);
-            }
-        }, 0, 4);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Hunter hunter : hunters) {
-                    hunter.move();
-                }
-
-            }
-        }, 0, 30);
-
-    }
-
-    private void timersForCreateObject() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                bonuses.add(creator.randomBonus());
-            }
-        }, 0, 1200);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                obstacles.add(creator.randomObstacle());
-            }
-        }, 0, 3000);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Hunter hunter = creator.hunter(firstRobot);
-                hunter.indexRobot = 0;
-                hunters.add(hunter);
-                modelUpdateEvent.addPropertyChangeListener(hunter);
-            }
-        }, 0, 2500);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Hunter hunter = creator.hunter(secondRobot);
-                hunter.indexRobot = 1;
-                hunters.add(hunter);
-                modelUpdateEvent.addPropertyChangeListener(hunter);
-            }
-        }, 0, 1200);
     }
 
     protected void onRedrawEvent() {
         EventQueue.invokeLater(this::repaint);
     }
 
-    public void createsRobots(RobotParameters robotParameters) {
-        firstRobot = new Robot(new Point(robotParameters.robotPositionX(), robotParameters.robotPositionY()), new Point(0, 0));
-        secondRobot = new Robot(new Point(robotParameters.robotPositionX() + 200, robotParameters.robotPositionY() + 200), new Point(0, 0));
+    public void createRobot() {
+        firstRobot = new Robot(new Point(0, 0), new Point(0, 0));
+        secondRobot = new Robot(new Point(0, 0), new Point(0, 0));
         firstRobot.setLife(5);
         secondRobot.setLife(3);
+
     }
 
-    protected void moveRobots(Robot robot) {
-        robot.move();
-        modelUpdateEvent.onModelUpdateEvent(firstRobot, secondRobot);
-    }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
+        g2d = (Graphics2D) g;
         if (gameOver) {
             painter.printGameOver(g2d);
-        } else paintObjects(g2d);
-
-
+        } else {
+            try {
+                paintObjects(g2d);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
-    private void paintObjects(Graphics2D g2d) {
+    private void paintObjects(Graphics2D g2d) throws IOException {
         painter.paintBackground(g2d);
         scorePoint.draw(g2d);
         firstRobot.draw(g2d);
@@ -187,16 +123,6 @@ public class GameVisualizer extends JPanel {
         painter.drawArrayObjects(g2d, bonuses);
         painter.drawArrayObjects(g2d, shots);
         painter.drawArrayObjects(g2d, obstacles);
-        painter.drawArrayObjects(g2d, hunters);
-        checkCollisions(g2d);
+        painter.drawArrayObjects(g2d, enemies);
     }
-
-
-    public void checkCollisions(Graphics2D g) {
-        checker.collisionsTarget(g);
-        checker.collisionsObjects(g, bonuses);
-        checker.collisionsObjects(g, obstacles);
-        checker.collisionsObjects(g, hunters);
-    }
-
 }

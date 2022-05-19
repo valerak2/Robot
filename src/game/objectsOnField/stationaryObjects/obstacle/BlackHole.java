@@ -2,23 +2,43 @@ package game.objectsOnField.stationaryObjects.obstacle;
 
 import game.objectsOnField.movingObjects.robot.Robot;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+/**
+ * Класс объекта-препятствия "Черная дыра"
+ */
 public class BlackHole extends Obstacle {
-    public BlackHole(Point position) {
-        super(position);
+    /**
+     * Ширины объекта
+     */
+    public int width() {
+        return 100;
     }
 
+    /**
+     * Высоты объекта
+     */
+    public int height() {
+        return 100;
+    }
+    /**
+     * Конструктор - создание нового объекта
+     */
+    public BlackHole(Point position) {
+        super(position);
+        this.size= 100;
+    }
+
+    /**
+     * Метод нанесения урона роботу (убивает робота)
+     */
     @Override
     public void damage(Robot robot) {
         robot.setLife(0);
     }
 
-    @Override
-    public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.drawOval(position.x, position.y, 100, 100);
-        g.setColor(new Color(0xF03607BB, true));
-        g.fillOval(position.x, position.y, 100, 100);
-    }
 }

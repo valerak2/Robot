@@ -18,7 +18,7 @@ import gui.menu.OptionsMenu;
 import gui.menu.CustomizeMenu;
 import gui.menu.CloseDialogPanel;
 import gui.menu.TestMenu;
-import gui.windows.CoordinateWindow;
+import gui.windows.StatisticsWindow;
 import gui.windows.GameWindow;
 import gui.windows.LogWindow;
 import log.Logger;
@@ -37,7 +37,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
     private static final Data data = new Data();
     private static final GameWindow gameWindow = new GameWindow(data);
     private static final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-    private static final CoordinateWindow coordinateWindow = CoordinateWindow.getInstance();
+    private static final StatisticsWindow STATISTICS_WINDOW = StatisticsWindow.getInstance();
 
 
     public MainApplicationFrame() {
@@ -57,7 +57,7 @@ public class MainApplicationFrame extends JFrame implements Serializable {
 
         addWindow(createWindow(logWindowParams, logWindow));
         addWindow(createWindow(gameWindowParams, gameWindow));
-        addWindow(createWindow(coordinateWindowParams, coordinateWindow));
+        addWindow(createWindow(coordinateWindowParams, STATISTICS_WINDOW));
 
         setJMenuBar(generateMenuBar());
         checkLanguage();
@@ -126,12 +126,12 @@ public class MainApplicationFrame extends JFrame implements Serializable {
                 logWindow.isClosed(),
                 logWindow.isIcon()));
         data.setState("coordinateWindow", new WindowState(
-                coordinateWindow.getWidth(),
-                coordinateWindow.getHeight(),
-                coordinateWindow.getX(),
-                coordinateWindow.getY(),
-                coordinateWindow.isClosed(),
-                coordinateWindow.isIcon()));
+                STATISTICS_WINDOW.getWidth(),
+                STATISTICS_WINDOW.getHeight(),
+                STATISTICS_WINDOW.getX(),
+                STATISTICS_WINDOW.getY(),
+                STATISTICS_WINDOW.isClosed(),
+                STATISTICS_WINDOW.isIcon()));
 
         data.setState("customize", new RobotCustomize(
                 CustomizeRobots.getColorRobots(),
@@ -152,6 +152,6 @@ public class MainApplicationFrame extends JFrame implements Serializable {
         //Названия Окон
         gameWindow.setTitle(rb.getString("GameWindow.name"));
         logWindow.setTitle(rb.getString("LogWindow.name"));
-        coordinateWindow.setTitle(rb.getString("coordinateWindow.name"));
+        STATISTICS_WINDOW.setTitle(rb.getString("coordinateWindow.name"));
     }
 }

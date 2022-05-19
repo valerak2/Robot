@@ -1,42 +1,55 @@
 package game.objectsOnField.movingObjects;
 
 import game.objectsOnField.ObjectOnTheField;
-import game.objectsOnField.movingObjects.robot.Robot;
 
 import java.awt.*;
 
+/**
+ * Общий абстрактный класс для всех движущихся объектов на игровом поле
+ */
+// TODO: 17.05.2022 сделать: direction, color, fiqure
 public abstract class MovingObjects extends ObjectOnTheField {
-    protected Point position;
+    /**
+     * Поле точки цели объекта
+     */
     protected Point target;
     protected double direction;
+    /**
+     * Поле очков жизни объекта
+     */
     protected int life;
     protected Color color;
-    protected String figure;
+    protected PainterModels painterModels;
+
+    /**
+     * Конструктор - создание нового объекта
+     */
     protected MovingObjects(Point position) {
         this.setPosition(position);
     }
 
-
+    /**
+     * Абстрактный метод движения объекта
+     */
     abstract public void move();
-    @Override
-    public boolean checkCollision(Graphics2D g, Robot robot) {
-        g.setClip(robot.getPosition().x, robot.getPosition().y, 20, 20);
-        return g.hitClip(position.x, position.y, 30, 30);
 
-    }
-
-    public Point getPosition() {
-        return position;
-    }
-
+    /**
+     * Метод установки позиции объекта
+     */
     public void setPosition(Point position) {
         this.position = position;
     }
 
+    /**
+     * Метод получения позиции цели объекта
+     */
     public Point getTarget() {
         return target;
     }
 
+    /**
+     * Метод установки позиции цели объекта
+     */
     public void setTarget(Point target) {
         this.target = target;
     }
@@ -49,10 +62,16 @@ public abstract class MovingObjects extends ObjectOnTheField {
         this.direction = direction;
     }
 
+    /**
+     * Метод получения очков жизни объекта
+     */
     public int getLife() {
         return life;
     }
 
+    /**
+     * Метод установки очков жизни объекта
+     */
     public void setLife(int life) {
         this.life = life;
     }
@@ -63,13 +82,5 @@ public abstract class MovingObjects extends ObjectOnTheField {
 
     public void setColor(Color color) {
         this.color = color;
-    }
-
-    public String getFigure() {
-        return figure;
-    }
-
-    public void setFigure(String figure) {
-        this.figure = figure;
     }
 }

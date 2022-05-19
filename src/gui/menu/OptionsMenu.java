@@ -1,7 +1,6 @@
 package gui.menu;
 
 import gui.localization.Language;
-import gui.windows.GameWindow;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -14,6 +13,7 @@ public class OptionsMenu {
     public static String language = rb.getString("language");
 
     public static JMenu optionsMenu = new JMenu(Options);
+
     public JMenu addOptionsMenu() {
         optionsMenu.setMnemonic(KeyEvent.VK_T);
         optionsMenu.add(addExit());
@@ -28,13 +28,13 @@ public class OptionsMenu {
     }
 
     private JMenu addLanguage() {
-        JMenu LanguageItem = new JMenu(language);
-        LanguageItem.setMnemonic(KeyEvent.VK_S);
+        JMenu languageItem = new JMenu(language);
+        languageItem.setMnemonic(KeyEvent.VK_S);
         {
-            LanguageItem.add(setLang("eng"));
-            LanguageItem.add(setLang("ru"));
+            languageItem.add(setLang("eng"));
+            languageItem.add(setLang("ru"));
         }
-        return LanguageItem;
+        return languageItem;
     }
 
     private JMenuItem setLang(String language) {

@@ -1,39 +1,34 @@
 package game.objectsOnField.movingObjects.enemies;
 
 import game.objectsOnField.movingObjects.MovingObjects;
+import game.objectsOnField.movingObjects.PainterModels;
 import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 import game.objectsOnField.movingObjects.robot.Robot;
-import game.objectsOnField.movingObjects.robot.operations.PaintOperations;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class Hunter extends MovingObjects implements PropertyChangeListener {
     public int indexRobot;
-
+    Color color = new Color(0x831A1A);
+    /**
+     * Конструктор - создание нового объекта
+     *
+     * @param position
+     */
     public Hunter(Point position, Point target) {
         super(position);
         this.target = target;
+        this.painterModels = new PainterModels();
+        this.size = 30;
     }
 
     @Override
     public void draw(Graphics2D g) {
-        int robotCenterX = PaintOperations.round(position.x);
-        int robotCenterY = PaintOperations.round(position.y);
         String figure = CustomizeRobots.getFigureRobots();
-        AffineTransform t = AffineTransform.getRotateInstance(0, robotCenterX, robotCenterY);
-        g.setTransform(t);
-        g.setColor(new Color(0x831A1A));
-        PaintOperations.fillFigure(g, figure, robotCenterX, robotCenterY, 30, 10);
-        g.setColor(Color.BLACK);
-        PaintOperations.drawFigure(g, figure, robotCenterX, robotCenterY, 30, 10);
-        g.setColor(Color.WHITE);
-        PaintOperations.fillFigure(g, figure, robotCenterX + 10, robotCenterY, 5, 5);
-        g.setColor(Color.BLACK);
-        PaintOperations.drawFigure(g, figure, robotCenterX + 10, robotCenterY, 5, 5);
+        painterModels.paintObject(g, color, figure, position.x, position.y, 30, 10);
+        painterModels.paintObject(g, Color.WHITE,figure, position.x + 10, position.y, 5, 5);
 
     }
 

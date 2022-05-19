@@ -3,7 +3,9 @@ package game.logic;
 import game.objectsOnField.ObjectOnTheField;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Painter {
     public void paintBackground(Graphics g) {
@@ -12,9 +14,13 @@ public class Painter {
 
     }
 
-    public <ObjectOnField extends ObjectOnTheField> void drawArrayObjects(Graphics2D g, ArrayList<ObjectOnField> objects) {
-        for (ObjectOnField object : objects) {
+    public <ObjectOnField extends ObjectOnTheField> void drawArrayObjects(
+            Graphics2D g, ArrayList<ObjectOnField> objects) throws IOException {
+        CopyOnWriteArrayList<ObjectOnField> copyOnWriteArrayList = new CopyOnWriteArrayList<>(objects);
+        for (ObjectOnField object : copyOnWriteArrayList) {
             object.draw(g);
+
+
         }
     }
 

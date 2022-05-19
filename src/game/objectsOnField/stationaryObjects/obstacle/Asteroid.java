@@ -4,24 +4,25 @@ import game.objectsOnField.movingObjects.robot.Robot;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Класс объекта-препятствия "Астеройд"
+ */
 public class Asteroid extends Obstacle {
-
+    /**
+     * Конструктор - создание нового объекта
+     */
     public Asteroid(Point position) {
         super(position);
+        this.size= 50;
     }
 
-    @Override
-    public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.drawOval(position.x, position.y, 25, 25);
-        g.setColor(Color.GRAY);
-        g.fillOval(position.x, position.y, 25, 25);
-
-    }
-
+    /**
+     * Метод нанесения урона роботу (наносит 1 урон роботу)
+     */
     @Override
     public void damage(Robot robot) {
         robot.setLife(robot.getLife() - 1);
