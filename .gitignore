@@ -2,7 +2,6 @@ pom.xml
 .idea/vcs.xml
 *.xml
 *.class
-target/classes/gui/GameVisualizer$2.class
 *.iml
 *.bin
-
+out

@@ -43,15 +43,9 @@ public class GameWindow extends JInternalFrame {
         customizeRobots.setColorRobots(robotCustomize.colorRobots());
     }
 
+    // TODO: 19.05.2022 переделать сериализацию роботов
     private void setParametersRobot(Data data) {
         RobotParameters robotParameters = (RobotParameters) data.getState("parameters");
-        m_visualizer.createsRobots(robotParameters);
-        /*m_visualizer.getP().builderParameters(
-                robotParameters.robotPositionX(),
-                robotParameters.robotPositionY(),
-                robotParameters.robotDirection(),
-                robotParameters.targetPositionX(),
-                robotParameters.targetPositionY());*/
-
+        //m_visualizer.setRobotParameters(robotParameters);
     }
 }
