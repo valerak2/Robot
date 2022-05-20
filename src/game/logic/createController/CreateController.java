@@ -1,20 +1,21 @@
-package game.logic.timer;
+package game.logic.createController;
 
-import game.logic.GameVisualizer;
+import game.GameVisualizer;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TimerCreator {
+public class CreateController {
     static GameVisualizer gameVisualizer = null;
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
     ExecutorService executors = Executors.newFixedThreadPool(12);
 
 
-    public TimerCreator(GameVisualizer gameVisualizer) {
-        TimerCreator.gameVisualizer = gameVisualizer;
+    public CreateController(GameVisualizer gameVisualizer) {
+        CreateController.gameVisualizer = gameVisualizer;
+        run();
     }
 
     public void run() {
@@ -24,22 +25,22 @@ public class TimerCreator {
     }
 
     private void createObstacle() {
-        executor.scheduleAtFixedRate(TimerTasksCreate.createAsteroid, 0, 10, TimeUnit.SECONDS);
-        executor.scheduleAtFixedRate(TimerTasksCreate.createNebula, 5, 15, TimeUnit.SECONDS);
-        executor.scheduleAtFixedRate(TimerTasksCreate.createBlackHole, 15, 30, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createAsteroid, 0, 10, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createNebula, 5, 15, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createBlackHole, 15, 30, TimeUnit.SECONDS);
     }
 
     private void createBonus() {
-        executor.scheduleAtFixedRate(TimerTasksCreate.createHeart, 0, 6, TimeUnit.SECONDS);
-        executor.scheduleAtFixedRate(TimerTasksCreate.createSpeed, 5, 12, TimeUnit.SECONDS);
-        executor.scheduleAtFixedRate(TimerTasksCreate.createResetRobot, 15, 30, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createHeart, 0, 6, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createSpeed, 5, 12, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createResetRobot, 15, 30, TimeUnit.SECONDS);
     }
 
     private void createEnemies() {
-        executor.scheduleAtFixedRate(TimerTasksCreate.createHunter1, 10, 10, TimeUnit.SECONDS);
-        executor.scheduleAtFixedRate(TimerTasksCreate.createHunter2, 10, 18, TimeUnit.SECONDS);
-        executor.scheduleAtFixedRate(TimerTasksCreate.createComet, 15, 30, TimeUnit.SECONDS);
-        executor.scheduleAtFixedRate(TimerTasksCreate.createCruiser, 20, 45, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createFirstHunter, 10, 10, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createSecondHunter, 10, 18, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createComet, 15, 30, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.createCruiser, 20, 45, TimeUnit.SECONDS);
 
     }
 

@@ -1,4 +1,4 @@
-package game.logic.timer;
+package game.logic.createController;
 
 import game.objectsOnField.movingObjects.enemies.Comet;
 import game.objectsOnField.movingObjects.enemies.Cruiser;

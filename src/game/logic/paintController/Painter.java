@@ -1,4 +1,4 @@
-package game.logic;
+package game.logic.paintController;
 
 import game.objectsOnField.ObjectOnTheField;
 

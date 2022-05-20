@@ -1,22 +1,29 @@
-package game.logic.checker;
+package game.logic.ñollisionController;
 
-import game.logic.GameVisualizer;
-import game.objectsOnField.movingObjects.robot.CrashedRobot ;
+import game.GameVisualizer;
+import game.objectsOnField.movingObjects.robot.CrashedRobot;
+
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class CheckerLifeRobot {
     final GameVisualizer gameVisualizer;
+
     public CheckerLifeRobot(GameVisualizer gameVisualizer) {
         this.gameVisualizer = gameVisualizer;
     }
-    //@Override
+
     public void run() {
-        checkDeath();
-        gameOver();
-    }
-    private void gameOver() {
-        if (gameVisualizer.firstRobot.getLife() <= 0 & gameVisualizer.secondRobot.getLife() <= 0) {
-            gameVisualizer.gameOver = true;
-        }
+        ScheduledExecutorService executor1 = Executors.newSingleThreadScheduledExecutor();
+        executor1.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                checkDeath();
+
+            }
+        }, 0, 6, TimeUnit.MILLISECONDS);
     }
 
     private void checkDeath() {
