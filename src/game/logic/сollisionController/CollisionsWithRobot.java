@@ -1,8 +1,7 @@
-package game.logic.checker;
+package game.logic.сollisionController;
 
-import game.logic.GameVisualizer;
+import game.GameVisualizer;
 import game.objectsOnField.ObjectOnTheField;
-import game.objectsOnField.movingObjects.Shot;
 import game.objectsOnField.movingObjects.enemies.Hunter;
 import game.objectsOnField.movingObjects.robot.Robot;
 import game.objectsOnField.stationaryObjects.bonuses.Bonus;
@@ -15,16 +14,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Checker {
+public class CollisionsWithRobot {
     final GameVisualizer gameVisualizer;
 
-    public Checker(GameVisualizer gameVisualizer) {
+    public CollisionsWithRobot(GameVisualizer gameVisualizer) {
         this.gameVisualizer = gameVisualizer;
     }
 
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(12);
 
-    // TODO: 19.05.2022 оптимизировать и отрефакторить
+    // TODO: 20.05.2022 переделать
     public void run() {
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -77,15 +76,6 @@ public class Checker {
                         gameVisualizer.enemies, gameVisualizer.secondRobot);
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
-        executor.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                for (Shot shot : gameVisualizer.shots) {
-                    checkCollisionsWithShot(gameVisualizer.g2d,
-                            gameVisualizer.enemies, shot);
-                }
-            }
-        }, 0, 5, TimeUnit.MILLISECONDS);
     }
 
     public void collisionsTarget(Graphics2D g) {
@@ -99,7 +89,18 @@ public class Checker {
         }
     }
 
-    private <ObjectOnField extends ObjectOnTheField> void checkCollisions(
+    private <ObjectOnField extends ObjectOnTheField> TimerTask createTimerTask(
+            Robot robot, ArrayList<ObjectOnField> objects) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                checkCollisions(gameVisualizer.g2d,
+                        objects, robot);
+            }
+        };
+    }
+
+    public <ObjectOnField extends ObjectOnTheField> void checkCollisions(
             Graphics2D g, ArrayList<ObjectOnField> objects, Robot robot) {
         ArrayList<ObjectOnField> crashed = new ArrayList<>();
         for (ObjectOnField object : objects) {
@@ -122,24 +123,6 @@ public class Checker {
         }
     }
 
-    private <ObjectOnField extends ObjectOnTheField> void checkCollisionsWithShot(
-            Graphics2D g, ArrayList<ObjectOnField> objects, Shot shot) {
-        ArrayList<ObjectOnField> crashedObject = new ArrayList<>();
-        ArrayList<Shot> crashedShots = new ArrayList<>();
-        for (ObjectOnField object : objects) {
-            if (object.checkCollision(g, shot)) {
-                crashedObject.add(object);
-                crashedShots.add(shot);
-            }
-        }
-        for (ObjectOnField object : crashedObject) {
-            objects.remove(object);
-        }
-        for (Shot crashedShot : crashedShots) {
-            gameVisualizer.shots.remove(crashedShot);
-        }
-    }
-
     // TODO: 19.05.2022 доделать логику воскрешения роботов
     private Boolean checkRobotLife() {
         return gameVisualizer.firstRobot.getLife() == 0
@@ -155,3 +138,5 @@ public class Checker {
     }
 
 }
+
+

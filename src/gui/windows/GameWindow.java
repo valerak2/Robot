@@ -9,7 +9,7 @@ import gui.menu.CloseDialogPanel;
 import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 
 
-import game.logic.GameVisualizer;
+import game.GameVisualizer;
 
 import java.util.ResourceBundle;
 import java.awt.*;

@@ -1,9 +1,9 @@
-package game.logic.timer;
+package game.logic.createController;
 
-import game.logic.GameVisualizer;
+import game.GameVisualizer;
 import game.objectsOnField.movingObjects.enemies.Hunter;
 
-public enum TimerTasksCreate implements Runnable {
+public enum TimerTasks implements Runnable {
     createAsteroid {
         @Override
         public void run() {
@@ -40,7 +40,7 @@ public enum TimerTasksCreate implements Runnable {
             gameVisualizer.bonuses.add(creator.resetRobot());
         }
     },
-    createHunter1 {
+    createFirstHunter {
         @Override
         public void run() {
             Hunter hunter = creator.hunter(gameVisualizer.firstRobot);
@@ -49,7 +49,7 @@ public enum TimerTasksCreate implements Runnable {
             gameVisualizer.modelUpdateEvent.addPropertyChangeListener(hunter);
         }
     },
-    createHunter2 {
+    createSecondHunter {
         @Override
         public void run() {
             Hunter hunter = creator.hunter(gameVisualizer.secondRobot);
@@ -71,6 +71,6 @@ public enum TimerTasksCreate implements Runnable {
         }
     },
     ;
-    GameVisualizer gameVisualizer = TimerCreator.gameVisualizer;
+    GameVisualizer gameVisualizer = CreateController.gameVisualizer;
     Creator creator = new Creator();
 }

@@ -1,10 +1,10 @@
-package game.logic.timer;
+package game.logic.moveController;
 
-import game.logic.GameVisualizer;
+import game.GameVisualizer;
 import game.objectsOnField.movingObjects.MovingObjects;
 import game.objectsOnField.movingObjects.Shot;
 
-public enum TimerTasksMove implements Runnable {
+public enum TimerTasks implements Runnable {
     moveShots {
         @Override
         public void run() {
@@ -36,5 +36,5 @@ public enum TimerTasksMove implements Runnable {
             }
         }
     };
-    GameVisualizer gameVisualizer = TimerMoveObject.gameVisualizer;
+    GameVisualizer gameVisualizer = MoveController.gameVisualizer;
 }
