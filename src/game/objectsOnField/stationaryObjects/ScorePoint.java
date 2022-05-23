@@ -19,6 +19,7 @@ public class ScorePoint extends StationaryObjects {
      */
     public ScorePoint(Point position) {
         super(position);
+        this.size = 20;
     }
 
     /**

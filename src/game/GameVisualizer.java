@@ -29,8 +29,6 @@ public class GameVisualizer extends JPanel {
     public volatile Robot firstRobot;
     public volatile Robot secondRobot;
 
-
-    public volatile Boolean gameOver = false;
     public ScorePoint scorePoint = creator.scorePoint();
     public volatile ArrayList<Bonus> bonuses = new ArrayList<>();
     public volatile ArrayList<Shot> shots = new ArrayList<>();
@@ -72,12 +70,12 @@ public class GameVisualizer extends JPanel {
     public void createRobot() {
         firstRobot = new Robot(new Point(0, 0), new Point(0, 0));
         secondRobot = new Robot(new Point(0, 0), new Point(0, 0));
-        firstRobot.setLife(0);
-        secondRobot.setLife(0);
+        firstRobot.setLife(5);
+        secondRobot.setLife(3);
 
     }
 
-    @Override
+
     public void paint(Graphics g) {
         paintController.paint(g);
     }

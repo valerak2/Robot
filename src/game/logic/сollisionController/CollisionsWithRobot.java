@@ -2,12 +2,19 @@ package game.logic.ñollisionController;
 
 import game.GameVisualizer;
 import game.objectsOnField.ObjectOnTheField;
+import game.objectsOnField.movingObjects.enemies.Comet;
+import game.objectsOnField.movingObjects.enemies.Cruiser;
 import game.objectsOnField.movingObjects.enemies.Hunter;
 import game.objectsOnField.movingObjects.robot.Robot;
 import game.objectsOnField.stationaryObjects.bonuses.Bonus;
+import game.objectsOnField.stationaryObjects.bonuses.Heart;
+import game.objectsOnField.stationaryObjects.bonuses.ResetRobot;
+import game.objectsOnField.stationaryObjects.bonuses.Speed;
+import game.objectsOnField.stationaryObjects.obstacle.Asteroid;
+import game.objectsOnField.stationaryObjects.obstacle.BlackHole;
+import game.objectsOnField.stationaryObjects.obstacle.Nebula;
 import game.objectsOnField.stationaryObjects.obstacle.Obstacle;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -28,42 +35,42 @@ public class CollisionsWithRobot {
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                collisionsTarget(gameVisualizer.g2d);
+                collisionsTarget();
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                checkCollisions(gameVisualizer.g2d,
+                checkCollisions(
                         gameVisualizer.bonuses, gameVisualizer.firstRobot);
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                checkCollisions(gameVisualizer.g2d,
+                checkCollisions(
                         gameVisualizer.bonuses, gameVisualizer.secondRobot);
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                checkCollisions(gameVisualizer.g2d,
+                checkCollisions(
                         gameVisualizer.obstacles, gameVisualizer.firstRobot);
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                checkCollisions(gameVisualizer.g2d,
+                checkCollisions(
                         gameVisualizer.obstacles, gameVisualizer.secondRobot);
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                checkCollisions(gameVisualizer.g2d,
+                checkCollisions(
                         gameVisualizer.enemies, gameVisualizer.firstRobot);
 
             }
@@ -72,15 +79,15 @@ public class CollisionsWithRobot {
             @Override
             public void run() {
 
-                checkCollisions(gameVisualizer.g2d,
+                checkCollisions(
                         gameVisualizer.enemies, gameVisualizer.secondRobot);
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
     }
 
-    public void collisionsTarget(Graphics2D g) {
-        if (gameVisualizer.scorePoint.checkCollision(g, gameVisualizer.firstRobot)
-                || gameVisualizer.scorePoint.checkCollision(g, gameVisualizer.secondRobot)
+    public void collisionsTarget() {
+        if (gameVisualizer.scorePoint.checkCollision(gameVisualizer.firstRobot)
+                || gameVisualizer.scorePoint.checkCollision(gameVisualizer.secondRobot)
         ) {
 
             gameVisualizer.scorePoint.getScore(gameVisualizer.firstRobot);
@@ -94,31 +101,81 @@ public class CollisionsWithRobot {
         return new TimerTask() {
             @Override
             public void run() {
-                checkCollisions(gameVisualizer.g2d,
+                checkCollisions(
                         objects, robot);
             }
         };
     }
 
     public <ObjectOnField extends ObjectOnTheField> void checkCollisions(
-            Graphics2D g, ArrayList<ObjectOnField> objects, Robot robot) {
+            ArrayList<ObjectOnField> objects, Robot robot) {
         ArrayList<ObjectOnField> crashed = new ArrayList<>();
         for (ObjectOnField object : objects) {
-            if (object.checkCollision(g, robot)) {
-
-                if (object.getClass().getName().equals(Hunter.class.getName())) {
-                    ((Hunter) object).damage(robot);
-                    gameVisualizer.modelUpdateEvent.removePropertyChangeListener((Hunter) object);
-                } else if (object.getClass().getName().equals(Bonus.class.getName())) {
-                    ((Bonus) object).effect(robot);
-                } else if (object.getClass().getName().equals(Obstacle.class.getName())) {
-                    ((Obstacle) object).damage(robot);
-                }
-                crashed.add(object);
+            if (robot.checkCollision(object)) {
+                String name = object.getClass().getSimpleName();
+                System.out.println(name);
+               /* switch (name){
+                    case "Hunter"  :((Hunter) object).damage(robot);
+                    case "Comet" :((Comet) object).damage(robot);
+                    case "Cruiser" :((Cruiser) object).damage(robot);
+                    case "Asteroid" :((Asteroid) object).damage(robot);
+                    case "BlackHole" : ((BlackHole) object).damage(robot);
+                    case "Nebula" : ((Nebula) object).damage(robot);
+                    case "Heart" : ((Heart) object).effect(robot);
+                    case "ResetRobot" : ((ResetRobot) object).effect(robot);
+                    case "Speed" : ((Speed) object).effect(robot);
+                }*/
+                objects.remove(object);
+                System.out.println(objects.contains(object));
             }
         }
         for (ObjectOnField object : crashed) {
+            System.out.println("b");
             objects.remove(object);
+
+        }
+    }
+    private<ObjectOnField extends ObjectOnTheField> void collision(ObjectOnField object, Robot robot){
+        String name = object.getClass().getSimpleName();
+        System.out.println(name);
+        switch (name){
+            case "Hunter"  :((Hunter) object).damage(robot);
+            case "Comet" :((Comet) object).damage(robot);
+            case "Cruiser" :((Cruiser) object).damage(robot);
+            case "Asteroid" :((Asteroid) object).damage(robot);
+            case "BlackHole" : ((BlackHole) object).damage(robot);
+            case "Nebula" : ((Nebula) object).damage(robot);
+            case "Heart" : ((Heart) object).effect(robot);
+            case "ResetRobot" : ((ResetRobot) object).effect(robot);
+            case "Speed" : ((Speed) object).effect(robot);
+        }
+    }
+
+    public <ObjectOnField extends Bonus> void checkCollisionsWithBonus(
+             ArrayList<ObjectOnField> bonuses, Robot robot) {
+        ArrayList<ObjectOnField> crashed = new ArrayList<>();
+        for (ObjectOnField bonus : bonuses) {
+            if (bonus.checkCollision(robot)) {
+                bonus.effect(robot);
+                crashed.add(bonus);
+            }
+        }
+        for (ObjectOnField object : crashed) {
+            bonuses.remove(object);
+
+        }
+    }
+    public void checkCollisionsWithObstacle(
+            ArrayList<Obstacle> obstacles, Robot robot) {
+        ArrayList<Obstacle> crashed = new ArrayList<>();
+        for (Obstacle obstacle : obstacles) {
+            if (robot.checkCollision(obstacle)) {
+                obstacle.damage(robot);
+                crashed.add(obstacle);
+            }
+        }
+        for (Obstacle object : crashed) {
+            obstacles.remove(object);
 
         }
     }

@@ -13,19 +13,6 @@ import java.io.IOException;
  */
 public class BlackHole extends Obstacle {
     /**
-     * Ширины объекта
-     */
-    public int width() {
-        return 100;
-    }
-
-    /**
-     * Высоты объекта
-     */
-    public int height() {
-        return 100;
-    }
-    /**
      * Конструктор - создание нового объекта
      */
     public BlackHole(Point position) {

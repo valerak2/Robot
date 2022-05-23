@@ -11,10 +11,15 @@ public abstract class ObjectOnTheField {
      * Размер объекта
      */
     protected int size;
+
     /**
      * Поле позиции объекта на поле
      */
     protected Point position;
+
+    public int getSize() {
+        return size;
+    }
 
     /**
      * Метод получение позиции
@@ -26,13 +31,13 @@ public abstract class ObjectOnTheField {
     /**
      * Метод проверка на столкновения с другими объектами
      */
-    public boolean checkCollision(Graphics2D g, ObjectOnTheField object) {
+    public boolean checkCollision(ObjectOnTheField object) {
         //
         return (getPosition().x >= object.getPosition().x &
-                getPosition().x <= object.getPosition().x + size)
+                getPosition().x <= object.getPosition().x + getSize())
                 &
                 (getPosition().y >= object.getPosition().y &
-                        getPosition().y <= object.getPosition().y + size);
+                        getPosition().y <= object.getPosition().y + getSize());
 
     }
 
