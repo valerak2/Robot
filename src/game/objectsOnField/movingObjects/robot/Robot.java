@@ -15,6 +15,7 @@ public class Robot extends MovingObjects {
         super(position);
         this.target = target;
         this.painterModels = new PainterModels();
+        this.size = 30;
     }
 
     @Override

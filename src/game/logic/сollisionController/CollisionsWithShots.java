@@ -3,10 +3,6 @@ package game.logic.ñollisionController;
 import game.GameVisualizer;
 import game.objectsOnField.ObjectOnTheField;
 import game.objectsOnField.movingObjects.Shot;
-import game.objectsOnField.movingObjects.enemies.Hunter;
-import game.objectsOnField.movingObjects.robot.Robot;
-import game.objectsOnField.stationaryObjects.bonuses.Bonus;
-import game.objectsOnField.stationaryObjects.obstacle.Obstacle;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,7 +38,7 @@ public class CollisionsWithShots {
         ArrayList<ObjectOnField> crashedObject = new ArrayList<>();
         Shot crashedShots;
         for (ObjectOnField object : objects) {
-            if (object.checkCollision(g, shot)) {
+            if (object.checkCollision(shot)) {
                 crashedObject.add(object);
                 crashedShots= shot;
             }}

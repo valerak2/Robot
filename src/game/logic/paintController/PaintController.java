@@ -28,14 +28,14 @@ public class PaintController extends JPanel {
         checker.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                gameOver();
+                checkGameOver();
             }
         }, 0, 3, TimeUnit.MILLISECONDS);
     }
     protected void onRedrawEvent() {
         EventQueue.invokeLater(gameVisualizer::repaint);
     }
-    private void gameOver() {
+    private void checkGameOver() {
         if (gameVisualizer.firstRobot.getLife() <= 0 & gameVisualizer.secondRobot.getLife() <= 0) {
             gameOver = true;
         }

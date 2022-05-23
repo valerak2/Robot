@@ -3,6 +3,7 @@ package game.objectsOnField.movingObjects.enemies;
 import game.objectsOnField.movingObjects.MovingObjects;
 import game.objectsOnField.movingObjects.PainterModels;
 import game.objectsOnField.movingObjects.Shot;
+import game.objectsOnField.movingObjects.robot.Robot;
 
 import java.awt.*;
 import java.io.IOException;
@@ -37,6 +38,9 @@ public class Cruiser extends MovingObjects {
     public void move() {
         /*Point newPosition = new Point(logicMove());
         setPosition(newPosition);*/
+    }
+    public void damage(Robot robot) {
+        robot.setLife(robot.getLife() - 1);
     }
 
     private void logicMove() {
