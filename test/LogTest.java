@@ -1,8 +1,9 @@
+
 import gui.windows.LogWindow;
 import log.LogLevel;
 import log.LogWindowSource;
 import log.Logger;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import javax.swing.*;
 
@@ -51,3 +52,4 @@ public class LogTest {
 
     }
 }
+

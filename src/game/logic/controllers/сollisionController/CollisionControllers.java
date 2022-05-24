@@ -1,10 +1,11 @@
-package game.logic.ñollisionController;
+package game.logic.controllers.ñollisionController;
 
 import game.GameVisualizer;
+import game.logic.controllers.Controller;
 
-public class CollisionController {
+public class CollisionControllers {
 
-    public CollisionController(GameVisualizer gameVisualizer) {
+    public CollisionControllers(GameVisualizer gameVisualizer) {
         CollisionsWithRobot collisionsWithRobot = new CollisionsWithRobot(gameVisualizer);
         collisionsWithRobot.run();
 

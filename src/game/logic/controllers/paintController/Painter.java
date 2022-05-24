@@ -1,8 +1,9 @@
-package game.logic.paintController;
+package game.logic.controllers.paintController;
 
 import game.objectsOnField.ObjectOnTheField;
 
 import java.awt.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;

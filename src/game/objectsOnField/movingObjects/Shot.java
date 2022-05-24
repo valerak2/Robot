@@ -30,7 +30,6 @@ public class Shot extends MovingObjects {
     /**
      * Метод движения "Выстрела"
      */
-    // TODO: 17.05.2022 сделать таргет
     @Override
     public void move() {
         Point newPosition = new Point(moveOnX(), moveOnY());

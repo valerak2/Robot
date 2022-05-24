@@ -1,54 +1,56 @@
-package game.logic.ñollisionController;
+package game.logic.controllers.ñollisionController;
 
 import game.GameVisualizer;
+import game.logic.controllers.Controller;
 import game.objectsOnField.ObjectOnTheField;
 import game.objectsOnField.movingObjects.Shot;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CollisionsWithShots {
+public class CollisionsWithShots implements Controller {
     final GameVisualizer gameVisualizer;
 
     public CollisionsWithShots(GameVisualizer gameVisualizer) {
         this.gameVisualizer = gameVisualizer;
     }
 
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
 
-    // TODO: 19.05.2022 îïòèìèçèðîâàòü è îòðåôàêòîðèòü
     public void run() {
         executor.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 for (Shot shot : gameVisualizer.shots) {
-                    checkCollisionsWithShot(gameVisualizer.g2d,
-                            gameVisualizer.enemies, shot);
+                    checkCollisionsWithShot(
+                            gameVisualizer.obstacles, shot);
                 }
             }
         }, 0, 5, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                gameVisualizer.shots.removeIf(shot -> shot.getPosition().equals(shot.getTarget()));
+            }
+        }, 0, 2, TimeUnit.SECONDS);
     }
 
     private <ObjectOnField extends ObjectOnTheField> void checkCollisionsWithShot(
-            Graphics2D g, ArrayList<ObjectOnField> objects, Shot shot) {
+            ArrayList<ObjectOnField> objects, Shot shot) {
         ArrayList<ObjectOnField> crashedObject = new ArrayList<>();
-        Shot crashedShots;
+
         for (ObjectOnField object : objects) {
-            if (object.checkCollision(shot)) {
+            if (shot.checkCollision(object)) {
                 crashedObject.add(object);
-                crashedShots= shot;
-            }}
-        if (shot.getPosition().equals(shot.getTarget())){
-            gameVisualizer.shots.remove(shot);
+            }
         }
         for (ObjectOnField object : crashedObject) {
             objects.remove(object);
         }
-        }
+    }
 
 
 }
