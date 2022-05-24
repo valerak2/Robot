@@ -8,8 +8,10 @@ import java.awt.*;
 public class CrashedRobot extends Robot{
     final Color color = new Color(95, 38, 114);
     final int life = 0;
-    public CrashedRobot(Point position, Point target) {
-        super(position, target);
+    public Robot robot;
+    public CrashedRobot(Robot robot) {
+        super(robot.getPosition(), robot.getTarget());
+        this.robot = robot;
         this.painterModels = new PainterModels();
     }
     @Override

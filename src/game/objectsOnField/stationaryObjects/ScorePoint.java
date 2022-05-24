@@ -4,7 +4,6 @@ import game.objectsOnField.movingObjects.PainterModels;
 import game.objectsOnField.movingObjects.robot.Robot;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 /**
  * Класс объекта "очки цели"

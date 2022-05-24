@@ -13,7 +13,7 @@ public class Heart extends Bonus {
      */
     public Heart(Point position) {
         super(position);
-        this.size= 30;
+        this.size = 30;
     }
 
     /**

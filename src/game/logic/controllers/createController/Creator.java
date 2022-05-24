@@ -1,4 +1,4 @@
-package game.logic.createController;
+package game.logic.controllers.createController;
 
 import game.objectsOnField.movingObjects.enemies.Comet;
 import game.objectsOnField.movingObjects.enemies.Cruiser;

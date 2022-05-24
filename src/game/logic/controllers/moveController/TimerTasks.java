@@ -1,4 +1,4 @@
-package game.logic.moveController;
+package game.logic.controllers.moveController;
 
 import game.GameVisualizer;
 import game.objectsOnField.movingObjects.MovingObjects;

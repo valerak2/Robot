@@ -14,8 +14,6 @@ public class Hunter extends MovingObjects implements PropertyChangeListener {
     Color color = new Color(0x831A1A);
     /**
      * Конструктор - создание нового объекта
-     *
-     * @param position
      */
     public Hunter(Point position, Point target) {
         super(position);

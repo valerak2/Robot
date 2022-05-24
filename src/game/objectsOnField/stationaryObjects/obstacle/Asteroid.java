@@ -2,11 +2,7 @@ package game.objectsOnField.stationaryObjects.obstacle;
 
 import game.objectsOnField.movingObjects.robot.Robot;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Класс объекта-препятствия "Астеройд"
@@ -17,7 +13,7 @@ public class Asteroid extends Obstacle {
      */
     public Asteroid(Point position) {
         super(position);
-        this.size= 50;
+        this.size = 50;
     }
 
     /**
