@@ -11,6 +11,7 @@ import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 
 import game.GameVisualizer;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import java.awt.*;
 
@@ -23,7 +24,7 @@ public class GameWindow extends JInternalFrame {
         return m_visualizer;
     }
 
-    public GameWindow(Data data) {
+    public GameWindow(Data data) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         super(ResourceBundle.getBundle("lang", Language.language).getString("GameWindow.name"), true, true, true, true);
         m_visualizer = new GameVisualizer();
         setCustomizeRobot(data);

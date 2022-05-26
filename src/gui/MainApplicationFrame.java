@@ -3,6 +3,7 @@ package gui;
 import java.awt.*;
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import javax.swing.*;
 
@@ -35,7 +36,16 @@ public class MainApplicationFrame extends JFrame implements Serializable {
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     private static final Data data = new Data();
-    private static final GameWindow gameWindow = new GameWindow(data);
+    private static GameWindow gameWindow = null;
+
+    static {
+        try {
+            gameWindow = new GameWindow(data);
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
     private static final StatisticsWindow STATISTICS_WINDOW = StatisticsWindow.getInstance();
 
