@@ -1,7 +1,6 @@
 package game.logic.controllers.ñollisionController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
 
 public class CollisionControllers {
 

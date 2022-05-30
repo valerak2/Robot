@@ -1,17 +1,18 @@
 package game.logic.controllers.paintController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
+import game.logic.controllers.IController;
+import log.Logger;
 
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class GameOverController implements Controller {
+public class GameOverIController implements IController {
     private final GameVisualizer gameVisualizer;
 
-    public GameOverController(GameVisualizer gameVisualizer) {
+    public GameOverIController(GameVisualizer gameVisualizer) {
         this.gameVisualizer = gameVisualizer;
         run();
     }

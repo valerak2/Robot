@@ -2,6 +2,6 @@ package game.logic.controllers;
 
 import game.GameVisualizer;
 
-public interface Controller{
+public interface IController {
     public void run();
 }

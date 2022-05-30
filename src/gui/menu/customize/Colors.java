@@ -1,4 +1,4 @@
-package gui.menu;
+package gui.menu.customize;
 
 import gui.localization.Language;
 

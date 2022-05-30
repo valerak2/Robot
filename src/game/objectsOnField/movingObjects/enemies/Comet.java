@@ -25,8 +25,6 @@ public class Comet extends MovingObjects {
     public void move() {
         Point newPosition = new Point(moveOnX(), position.y);
         setPosition(newPosition);
-
-
     }
 
     @Override

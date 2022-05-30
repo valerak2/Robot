@@ -9,44 +9,49 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
 import gui.localization.Language;
-import gui.menu.CloseDialogPanel;
-import log.LogChangeListener;
+import gui.menu.options.CloseDialogPanel;
+import log.ILogChangeListener;
 import log.LogEntry;
-import log.LogWindowSource;
+import log.Logger;
 
-public class LogWindow extends JInternalFrame implements LogChangeListener {
-    private final LogWindowSource m_logSource;
-    private final TextArea m_logContent;
+public class LogWindow extends JInternalFrame implements ILogChangeListener {
+    private final Logger logger = Logger.getInstance();
+    private final TextArea logWindowContent;
 
-    public LogWindow(LogWindowSource logSource) {
+    public LogWindow() {
         super(ResourceBundle.getBundle("lang", Language.language).getString("LogWindow.name"), true, true, true, true);
-        m_logSource = logSource;
-        m_logSource.registerListener(this);
-        m_logContent = new TextArea("");
-        m_logContent.setEditable(false);
+
+
+        logger.getLogSource().registerListener(this);
+        logWindowContent = new TextArea("");
+        logWindowContent.setEditable(false);
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(m_logContent, BorderLayout.CENTER);
+        panel.add(logWindowContent, BorderLayout.CENTER);
         getContentPane().add(panel);
         updateLogContent();
         CloseDialogPanel.addJInternalListener(this);
     }
 
+    /**
+     * Метод
+     */
     private void updateLogContent() {
         StringBuilder content = new StringBuilder();
-        for (LogEntry entry : m_logSource.all()) {
-            content.append("[").append(entry.getLevel()).append("]").append(entry.getMessage()).append("\n");
+        for (LogEntry entry : logger.getLogSource().all()) {
+            content.append(String.format("[%s] %s \n", entry.m_logLevel(), entry.m_strMessage()));
         }
-        m_logContent.setText(content.toString());
-        m_logContent.invalidate();
+        logWindowContent.setText(content.toString());
+        logWindowContent.invalidate();
     }
+
 
     @Override
     public void onLogChanged() {
         EventQueue.invokeLater(this::updateLogContent);
     }
 
-    public TextArea getM_logContent() {
-        return m_logContent;
+    public TextArea getLogWindowContent() {
+        return logWindowContent;
     }
 }

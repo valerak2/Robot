@@ -1,13 +1,13 @@
 package game.logic.controllers.createController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
+import game.logic.controllers.IController;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CreateController implements Controller {
+public class CreateController implements IController {
     static GameVisualizer gameVisualizer = null;
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 

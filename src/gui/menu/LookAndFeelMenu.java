@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
 
+// TODO: 29.05.2022 переделать
 public class LookAndFeelMenu {
     static ResourceBundle rb = ResourceBundle.getBundle("lang", Language.language);
     public static String DisplayMode = rb.getString("DisplayMode");
@@ -17,6 +18,7 @@ public class LookAndFeelMenu {
     public static String universalScheme = rb.getString("universalScheme");
     public static String setupUniversalScheme = rb.getString("setupUniversalScheme");
     public static String setupSystemScheme = rb.getString("setupSystemScheme");
+    private static Logger logger = Logger.getInstance();
 
     public static JMenu lookAndFeelMenu = new JMenu(DisplayMode);
 
@@ -36,7 +38,7 @@ public class LookAndFeelMenu {
             mainApplicationFrame.invalidate();
         });
         systemLookAndFeel.addActionListener((event) ->
-                Logger.info(setupSystemScheme));
+                logger.info(setupSystemScheme));
         return systemLookAndFeel;
     }
 
@@ -47,7 +49,7 @@ public class LookAndFeelMenu {
             mainApplicationFrame.invalidate();
         });
         crossplatformLookAndFeel.addActionListener((event) ->
-                Logger.info(setupUniversalScheme));
+                logger.info(setupUniversalScheme));
         return crossplatformLookAndFeel;
     }
 
@@ -58,7 +60,7 @@ public class LookAndFeelMenu {
             updateComponentTreeUI(mainApplicationFrame);
         } catch (ClassNotFoundException | InstantiationException
                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            Logger.error(e.toString());
+            logger.error(e.toString());
         }
     }
 }

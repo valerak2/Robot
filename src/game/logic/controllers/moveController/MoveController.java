@@ -1,15 +1,15 @@
 package game.logic.controllers.moveController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
+import game.logic.controllers.IController;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MoveController implements Controller {
+public class MoveController implements IController {
     static GameVisualizer gameVisualizer = null;
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(4);
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
 
 
     public MoveController(GameVisualizer gameVisualizer) {
@@ -22,5 +22,7 @@ public class MoveController implements Controller {
         executor.scheduleAtFixedRate(TimerTasks.moveFirstRobot, 0, 4, TimeUnit.MILLISECONDS);
         executor.scheduleAtFixedRate(TimerTasks.moveSecondRobot, 0, 12, TimeUnit.MILLISECONDS);
         executor.scheduleAtFixedRate(TimerTasks.moveEnemies, 0, 18, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(TimerTasks.moveLoadedEnemies, 0, 20, TimeUnit.MILLISECONDS);
+
     }
 }

@@ -1,19 +1,20 @@
 package game;
 
-import game.loadingLogic.LoadedEnemy;
+import game.logic.loadEnemy.LoadedEnemy;
 import game.logic.controllers.createController.CreateController;
 import game.logic.controllers.paintController.PaintControllers;
 import game.logic.controllers.moveController.MoveController;
 import game.logic.controllers.ñollisionController.CollisionControllers;
 import game.logic.controllers.createController.Creator;
 import game.objectsOnField.movingObjects.MovingObjects;
-import game.objectsOnField.movingObjects.enemies.EnemyLogic;
+import game.logic.loadEnemy.LoadedEnemyLogic;
 import game.objectsOnField.movingObjects.robot.ModelUpdateEvent;
 import game.objectsOnField.movingObjects.robot.Robot;
 import game.objectsOnField.movingObjects.Shot;
 import game.objectsOnField.stationaryObjects.ScorePoint;
 import game.objectsOnField.stationaryObjects.bonuses.Bonus;
 import game.objectsOnField.stationaryObjects.obstacle.Obstacle;
+import log.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,7 @@ import java.util.*;
 public class GameVisualizer extends JPanel {
 
     public ModelUpdateEvent modelUpdateEvent = new ModelUpdateEvent();
+    Logger logger = Logger.getInstance();
 
     public Creator creator = new Creator();
     public volatile Robot firstRobot;
@@ -36,17 +38,20 @@ public class GameVisualizer extends JPanel {
     public ArrayList<Shot> shots = new ArrayList<>();
     public ArrayList<Obstacle> obstacles = new ArrayList<>();
     public ArrayList<MovingObjects> enemies = new ArrayList<>();
-    EnemyLogic otherEnemy;
+    public ArrayList<LoadedEnemyLogic> l_enemies = new ArrayList<>();
 
     PaintControllers paintControllers;
 
     public GameVisualizer() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        LoadedEnemy loadedEnemy = new LoadedEnemy();
-        otherEnemy = loadedEnemy.loadEnemy();
-        System.out.println(loadedEnemy.loadEnemy());
-        createRobot();
+        createRobots();
+        loadEnemies();
         createAllController();
         clickOnField();
+
+    }
+    private void loadEnemies() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        LoadedEnemy loadedEnemy = new LoadedEnemy();
+        loadedEnemy.loadEnemyTest(l_enemies);
     }
     private void createAllController() {
         paintControllers = new PaintControllers(this);
@@ -86,17 +91,17 @@ public class GameVisualizer extends JPanel {
         }
     }
 
-    private void createRobot() {
+    private void createRobots() {
         firstRobot = new Robot(new Point(0, 0), new Point(0, 0));
         secondRobot = new Robot(new Point(0, 0), new Point(0, 0));
-        firstRobot.setLife(5);
-        secondRobot.setLife(3);
+        firstRobot.setLife(3);
+        secondRobot.setLife(5);
+        logger.gameInfo("Èãðà íà÷àëàñü");
 
     }
 
 
     public void paint(Graphics g) {
         paintControllers.repaintGame.paint(g);
-        otherEnemy.draw((Graphics2D) g);
     }
 }

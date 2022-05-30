@@ -6,12 +6,7 @@ public enum LogLevel {
     Info,
     Warning,
     Error,
+    GameInfo,
     Fatal;
-
-
-    LogLevel() {
-
-    }
-
 }
 
