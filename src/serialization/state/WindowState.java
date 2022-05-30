@@ -1,10 +1,10 @@
-package gui.serialization.state;
+package serialization.state;
 
 import java.io.Serializable;
 /**
 ѕромежуточные состо€ни€ параметров окон
  */
 public record WindowState(int width, int height, int positionX, int positionY,
-                          boolean isClosed, boolean isIcon) implements Serializable {
+                           boolean isIcon) implements Serializable {
 
 }

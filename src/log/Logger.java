@@ -1,40 +1,64 @@
 package log;
 
-public final class Logger {
-    private static final LogWindowSource defaultLogSource;
+public class Logger {
+    private LogWindowSource logSource = new LogWindowSource(10);
+    private static Logger INSTANCE;
 
-    static {
-        defaultLogSource = new LogWindowSource(10);
+    public Logger() {
+
     }
 
-    private Logger() {
+    public static Logger getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Logger();
+        }
+        return INSTANCE;
     }
 
-    public static void trace(String strMessage) {
-        defaultLogSource.append(LogLevel.Trace, strMessage);
+
+    public void debug(String strMessage) {
+        logSource.append(LogLevel.Debug, strMessage);
     }
 
-    public static void debug(String strMessage) {
-        defaultLogSource.append(LogLevel.Debug, strMessage);
+    public void info(String strMessage) {
+        logSource.append(LogLevel.Info, strMessage);
     }
 
-    public static void info(String strMessage) {
-        defaultLogSource.append(LogLevel.Info, strMessage);
+    public void error(String strMessage) {
+        logSource.append(LogLevel.Error, strMessage);
     }
 
-    public static void warning(String strMessage) {
-        defaultLogSource.append(LogLevel.Warning, strMessage);
+    public void gameInfo(String strMessage) {
+        logSource.append(LogLevel.GameInfo, strMessage);
     }
 
-    public static void error(String strMessage) {
-        defaultLogSource.append(LogLevel.Error, strMessage);
+    /**
+     * Может пригодиться в будущем
+     */
+    public void warning(String strMessage) {
+        logSource.append(LogLevel.Warning, strMessage);
     }
 
-    public static void fatal(String strMessage) {
-        defaultLogSource.append(LogLevel.Fatal, strMessage);
+
+    /**
+     * Может пригодиться в будущем
+     */
+    public void fatal(String strMessage) {
+        logSource.append(LogLevel.Fatal, strMessage);
     }
 
-    public static LogWindowSource getDefaultLogSource() {
-        return defaultLogSource;
+    /**
+     * Может пригодиться в будущем
+     */
+    public void trace(String strMessage) {
+        getLogSource().append(LogLevel.Trace, strMessage);
+    }
+
+    public LogWindowSource getLogSource() {
+        return logSource;
+    }
+
+    public void setLogSource(LogWindowSource logSource) {
+        this.logSource = logSource;
     }
 }

@@ -1,4 +1,4 @@
-package gui.serialization.state;
+package serialization.state;
 
 import java.awt.*;
 import java.io.Serializable;

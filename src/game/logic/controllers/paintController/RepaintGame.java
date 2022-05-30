@@ -1,7 +1,8 @@
 package game.logic.controllers.paintController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
+import game.logic.controllers.IController;
+import log.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class RepaintGame extends JPanel implements Controller {
+public class RepaintGame extends JPanel implements IController {
     private final GameVisualizer gameVisualizer;
     public Painter painter = new Painter();
 
@@ -21,11 +22,14 @@ public class RepaintGame extends JPanel implements Controller {
     }
 
     public void run() {
-        ScheduledExecutorService painter = Executors.newSingleThreadScheduledExecutor();
-        painter.scheduleAtFixedRate(new TimerTask() {
+        ScheduledExecutorService repaint = Executors.newSingleThreadScheduledExecutor();
+        repaint.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                onRedrawEvent();
+                if (PaintControllers.gameOver){repaint.shutdown();
+                    onRedrawEvent();
+                    }
+                else onRedrawEvent();
             }
         }, 0, 1, TimeUnit.MILLISECONDS);
 
@@ -34,6 +38,7 @@ public class RepaintGame extends JPanel implements Controller {
     protected void onRedrawEvent() {
         EventQueue.invokeLater(gameVisualizer::repaint);
     }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -58,6 +63,7 @@ public class RepaintGame extends JPanel implements Controller {
         gameVisualizer.firstRobot.draw(g2d);
         gameVisualizer.secondRobot.draw(g2d);
         gameVisualizer.firstRobot.drawTarget(g2d);
+
     }
 
     /**
@@ -68,6 +74,7 @@ public class RepaintGame extends JPanel implements Controller {
         painter.drawArrayObjects(g2d, gameVisualizer.shots);
         painter.drawArrayObjects(g2d, gameVisualizer.obstacles);
         painter.drawArrayObjects(g2d, gameVisualizer.enemies);
+        painter.drawLoadedEnemies(g2d, gameVisualizer.l_enemies);
     }
 
 }

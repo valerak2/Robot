@@ -1,7 +1,7 @@
 package game.logic.controllers.ñollisionController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
+import game.logic.controllers.IController;
 import game.objectsOnField.ObjectOnTheField;
 import game.objectsOnField.movingObjects.Shot;
 
@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CollisionsWithShots implements Controller {
+public class CollisionsWithShots implements IController {
     final GameVisualizer gameVisualizer;
 
     public CollisionsWithShots(GameVisualizer gameVisualizer) {

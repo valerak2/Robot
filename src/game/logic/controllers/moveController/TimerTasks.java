@@ -1,6 +1,7 @@
 package game.logic.controllers.moveController;
 
 import game.GameVisualizer;
+import game.logic.loadEnemy.LoadedEnemyLogic;
 import game.objectsOnField.movingObjects.MovingObjects;
 import game.objectsOnField.movingObjects.Shot;
 
@@ -32,6 +33,14 @@ public enum TimerTasks implements Runnable {
         @Override
         public void run() {
             for (MovingObjects enemy : gameVisualizer.enemies) {
+                enemy.move();
+            }
+        }
+    },
+    moveLoadedEnemies {
+        @Override
+        public void run() {
+            for (LoadedEnemyLogic enemy : gameVisualizer.l_enemies) {
                 enemy.move();
             }
         }

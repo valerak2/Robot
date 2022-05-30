@@ -1,7 +1,8 @@
 package game.logic.controllers.ñollisionController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
+import game.logic.controllers.IController;
+import game.logic.loadEnemy.LoadedEnemyLogic;
 import game.objectsOnField.ObjectOnTheField;
 import game.objectsOnField.movingObjects.enemies.Comet;
 import game.objectsOnField.movingObjects.enemies.Cruiser;
@@ -20,7 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CollisionsWithRobot implements Controller {
+public class CollisionsWithRobot implements IController {
     final GameVisualizer gameVisualizer;
 
     public CollisionsWithRobot(GameVisualizer gameVisualizer) {
@@ -34,6 +35,7 @@ public class CollisionsWithRobot implements Controller {
         timerBonus();
         timerObstacle();
         timerEnemies();
+        timerLoadedEnemy();
     }
 
     private void timerTarget() {
@@ -59,6 +61,22 @@ public class CollisionsWithRobot implements Controller {
             public void run() {
                 checkCollisions(
                         gameVisualizer.bonuses, gameVisualizer.secondRobot);
+            }
+        }, 0, 4, TimeUnit.MILLISECONDS);
+    }
+    private void timerLoadedEnemy() {
+        executor.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                checkCollisionsForEnemyLogic(
+                        gameVisualizer.l_enemies, gameVisualizer.firstRobot);
+            }
+        }, 0, 4, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                checkCollisionsForEnemyLogic(
+                        gameVisualizer.l_enemies, gameVisualizer.secondRobot);
             }
         }, 0, 4, TimeUnit.MILLISECONDS);
     }
@@ -122,6 +140,20 @@ public class CollisionsWithRobot implements Controller {
         }
         for (ObjectOnField object : crashed) {
             objects.remove(object);
+
+        }
+    }
+    public void checkCollisionsForEnemyLogic(
+            ArrayList<LoadedEnemyLogic> objects, Robot robot) {
+        ArrayList<LoadedEnemyLogic> crashed = new ArrayList<>();
+        for (LoadedEnemyLogic enemy : objects) {
+            if (enemy.checkCollisions(robot)) {
+                enemy.damage(robot);
+                crashed.add(enemy);
+            }
+        }
+        for (LoadedEnemyLogic enemy : crashed) {
+            objects.remove(enemy);
 
         }
     }

@@ -1,12 +1,13 @@
-package gui.menu;
+package gui.menu.options;
 
 import gui.localization.Language;
+import gui.menu.Menu;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 
-public class OptionsMenu {
+public class OptionsMenu implements Menu {
     static ResourceBundle rb = ResourceBundle.getBundle("lang", Language.language);
     public static String Options = rb.getString("Options");
     public static String Exit = rb.getString("Exit");
@@ -14,7 +15,8 @@ public class OptionsMenu {
 
     public static JMenu optionsMenu = new JMenu(Options);
 
-    public JMenu addOptionsMenu() {
+    @Override
+    public JMenu initialization() {
         optionsMenu.setMnemonic(KeyEvent.VK_T);
         optionsMenu.add(addExit());
         optionsMenu.add(addLanguage());

@@ -3,10 +3,6 @@ package game.objectsOnField.movingObjects;
 import java.awt.*;
 
 public class PainterModels {
-    public int round(double value) {
-        return (int) (value + 0.5);
-    }
-
     public void paintObject(Graphics g, Color color, String figure, int centerX, int centerY, int diam1, int diam2) {
         switch (figure) {
             case "Oval" -> {

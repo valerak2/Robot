@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Frame;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -13,7 +14,12 @@ public class RobotsProgram {
             e.printStackTrace();
         }
         SwingUtilities.invokeLater(() -> {
-            MainApplicationFrame frame = new MainApplicationFrame();
+            MainApplicationFrame frame = null;
+            try {
+                frame = new MainApplicationFrame();
+            } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
             frame.pack();
             frame.setVisible(true);
             frame.setExtendedState(Frame.MAXIMIZED_BOTH);

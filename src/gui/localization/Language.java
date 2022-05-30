@@ -2,6 +2,9 @@ package gui.localization;
 
 import gui.MainApplicationFrame;
 import gui.menu.*;
+import gui.menu.customize.CustomizeMenu;
+import gui.menu.options.CloseDialogPanel;
+import gui.menu.options.OptionsMenu;
 
 import javax.swing.*;
 import java.util.Locale;

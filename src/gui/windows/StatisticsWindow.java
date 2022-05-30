@@ -4,7 +4,7 @@ package gui.windows;
 import game.objectsOnField.movingObjects.robot.Robot;
 
 import gui.localization.Language;
-import gui.menu.CloseDialogPanel;
+import gui.menu.options.CloseDialogPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,6 @@ public class StatisticsWindow extends JInternalFrame implements PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //printCoordinateRobot((Point) evt.getNewValue());
         printP((Robot []) evt.getNewValue());
 
     }

@@ -9,11 +9,7 @@ import java.awt.*;
 import java.io.IOException;
 
 
-// TODO: 14.05.2022
 public class Cruiser extends MovingObjects {
-    /**
-     * Конструктор - создание нового объекта
-     */
     public Cruiser(Point position, Point target) {
         super(position);
         this.target = target;
@@ -22,12 +18,6 @@ public class Cruiser extends MovingObjects {
 
     @Override
     public void draw(Graphics2D g) throws IOException {
-        //        int x = position.x;
-        //        int y = position.y;
-        //        int[] onX = {x, x - 5, x - 5, x, x + 5, x + 5};
-        //        int[] onY = {y, y + 5, y + 10, y + 5, y + 10, y + 5}
-        //        g.drawPolygon(onX, onY, 6);
-        //        g.fillPolygon(onX, onY, 6);
         painterModels.paintObject(g, new Color(0xFF55E525, true),
                 "Oval", position.x, position.y, 50, 50);
         painterModels.paintObject(g, new Color(0xFF5F2672, true),
@@ -36,21 +26,12 @@ public class Cruiser extends MovingObjects {
 
     @Override
     public void move() {
-        /*Point newPosition = new Point(logicMove());
-        setPosition(newPosition);*/
+        if (position.y < 1000 & position.y > 0) {
+            position = new Point(position.x, position.y + 1);
+        } else position = new Point(position.x, 200);
+
     }
     public void damage(Robot robot) {
-        robot.setLife(robot.getLife() - 1);
+        robot.setLife(robot.getLife() - 2);
     }
-
-    private void logicMove() {
-       /* int n = 90;
-        int rx = (int)(position.x * Math.cos(n)) - (position.y * Math.sin(n));
-        int ry = (int) (position.x * Math.sin(n)) + (position.y * Math.cos(n));
-        return new Point(rx, PaintOperations.round(ry));*/
-    }
-    public Shot shot(){
-        return new Shot(position);
-    }
-
 }

@@ -1,7 +1,8 @@
-package gui.menu;
+package gui.menu.options;
 
 import gui.localization.Language;
 import gui.MainApplicationFrame;
+import serialization.SerializationController;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
@@ -53,7 +54,7 @@ public class CloseDialogPanel {
             }
 
             if ((eventObject.getSource()).getClass() == MainApplicationFrame.class || (eventObject.getSource()).getClass() == JMenuItem.class) {
-                MainApplicationFrame.saveStates();
+                SerializationController.getInstance().collectData();
                 ((Component) eventObject.getSource()).setVisible(false);
                 System.exit(0);
             }

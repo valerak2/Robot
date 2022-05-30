@@ -12,10 +12,6 @@ import java.awt.*;
 public class ScorePoint extends StationaryObjects {
     PainterModels painterModels = new PainterModels();
     Color color = new Color(0xFFEFDB09, true);
-
-    /**
-     * Конструктор - создание нового объекта
-     */
     public ScorePoint(Point position) {
         super(position);
         this.size = 20;
@@ -29,7 +25,7 @@ public class ScorePoint extends StationaryObjects {
     }
 
     /**
-     * Метод отрисовка очков (желтый круг)
+     * (желтый круг)
      */
     @Override
     public void draw(Graphics2D g) {

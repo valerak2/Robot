@@ -1,15 +1,16 @@
 package game.logic.controllers.ñollisionController;
 
 import game.GameVisualizer;
-import game.logic.controllers.Controller;
+import game.logic.controllers.IController;
 import game.objectsOnField.movingObjects.robot.CrashedRobot;
+import log.Logger;
 
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CheckerLifeRobot implements Controller {
+public class CheckerLifeRobot implements IController {
     final GameVisualizer gameVisualizer;
 
     public CheckerLifeRobot(GameVisualizer gameVisualizer) {
@@ -28,6 +29,7 @@ public class CheckerLifeRobot implements Controller {
     }
 
     private void checkDeath() {
+
         if (gameVisualizer.firstRobot.getLife() <= 0) {
             gameVisualizer.firstRobot = new CrashedRobot(gameVisualizer.firstRobot);
         }

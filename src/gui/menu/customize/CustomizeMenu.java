@@ -1,14 +1,15 @@
-package gui.menu;
+package gui.menu.customize;
 
 import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 import gui.localization.Language;
+import gui.menu.Menu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 
-public class CustomizeMenu {
+public class CustomizeMenu implements Menu {
 
     private static String color = Language.rb.getString("color");
     private static String Figure = Language.rb.getString("Figure");
@@ -24,8 +25,8 @@ public class CustomizeMenu {
     public static void setCustomMenu(String customMenu) {
         CustomizeMenu.customMenu = customMenu;
     }
-
-    public JMenu addCustomizeMenu() {
+    @Override
+    public JMenu initialization() {
         customizeMenu.setMnemonic(KeyEvent.VK_T);
         customizeMenu.add(setColorMenu());
         customizeMenu.add(setFigureMenu());

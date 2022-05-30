@@ -2,10 +2,9 @@ package gui.windows;
 
 
 import gui.localization.Language;
-import gui.serialization.Data;
-import gui.serialization.state.RobotCustomize;
-import gui.serialization.state.RobotParameters;
-import gui.menu.CloseDialogPanel;
+import serialization.Data;
+import serialization.state.RobotCustomize;
+import gui.menu.options.CloseDialogPanel;
 import game.objectsOnField.movingObjects.robot.CustomizeRobots;
 
 
@@ -24,11 +23,11 @@ public class GameWindow extends JInternalFrame {
         return m_visualizer;
     }
 
-    public GameWindow(Data data) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public GameWindow() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         super(ResourceBundle.getBundle("lang", Language.language).getString("GameWindow.name"), true, true, true, true);
         m_visualizer = new GameVisualizer();
-        setCustomizeRobot(data);
-        setParametersRobot(data);
+        //setCustomizeRobot(data);
+        //setParametersRobot(data);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(m_visualizer, BorderLayout.CENTER);
@@ -46,7 +45,7 @@ public class GameWindow extends JInternalFrame {
 
     // TODO: 19.05.2022 переделать сериализацию роботов
     private void setParametersRobot(Data data) {
-        RobotParameters robotParameters = (RobotParameters) data.getState("parameters");
+       // RobotParameters robotParameters = (RobotParameters) data.getState("parameters");
         //m_visualizer.setRobotParameters(robotParameters);
     }
 }

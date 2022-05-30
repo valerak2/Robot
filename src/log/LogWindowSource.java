@@ -3,23 +3,30 @@ package log;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Что починить:
  * 1. Этот класс порождает утечку ресурсов (связанные слушатели оказываются
  * удерживаемыми в памяти)
- * 2. Этот класс хранит активные сообщения лога, но в такой реализации он
- * их лишь накапливает. Надо же, чтобы количество сообщений в логе было ограничено
- * величиной m_iQueueLength (т.е. реально нужна очередь сообщений
- * ограниченного размера)
  */
 public class LogWindowSource {
-
+    /**
+     * Максимальное количество сообщений в логе
+     */
     private final int m_iQueueLength;
-
+    /**
+     * Максимальное количество сообщений в логе
+     */
     private ArrayBlockingQueue<LogEntry> m_messages;
-    private final ArrayList<LogChangeListener> m_listeners;
-    private volatile LogChangeListener[] m_activeListeners;
+    /**
+     * Все слушатели объекта
+     */
+    private final ArrayList<ILogChangeListener> m_listeners;
+    /**
+     * Активные слушатели объекта
+     */
+    private volatile ILogChangeListener[] m_activeListeners;
 
     public LogWindowSource(int iQueueLength) {
         m_iQueueLength = iQueueLength;
@@ -27,14 +34,17 @@ public class LogWindowSource {
         m_listeners = new ArrayList<>();
     }
 
-    public void registerListener(LogChangeListener listener) {
+    public void registerListener(ILogChangeListener listener) {
         synchronized (m_listeners) {
             m_listeners.add(listener);
             m_activeListeners = null;
         }
     }
 
-    public void unregisterListener(LogChangeListener listener) {
+    /**
+     * Может пригодиться в будущем
+     */
+    public void unregisterListener(ILogChangeListener listener) {
         synchronized (m_listeners) {
             m_listeners.remove(listener);
             m_activeListeners = null;
@@ -48,19 +58,61 @@ public class LogWindowSource {
             m_messages.poll();
             appendInTail = m_messages.offer(entry);
         }
-        LogChangeListener[] activeListeners = m_activeListeners;
+        ILogChangeListener[] activeListeners = m_activeListeners;
         if (activeListeners == null) {
             synchronized (m_listeners) {
                 if (m_activeListeners == null) {
-                    activeListeners = m_listeners.toArray(new LogChangeListener[0]);
+                    activeListeners = m_listeners.toArray(new ILogChangeListener[0]);
                     m_activeListeners = activeListeners;
                 }
             }
         }
         assert activeListeners != null;
-        for (LogChangeListener listener : activeListeners) {
+        for (ILogChangeListener listener : activeListeners) {
             listener.onLogChanged();
         }
+    }
+
+    /**
+     * Вставляет указанный элемент в хвост этой очереди,
+     * если это возможно сделать немедленно,
+     * не превышая емкость очереди, возвращая значение true в случае успеха
+     * и вызывая исключение IllegalStateException ,
+     * если эта очередь заполнена.
+     */
+    private void add(LogLevel logLevel, String strMessage) {
+        LogEntry entry = new LogEntry(logLevel, strMessage);
+        m_messages.add(entry);
+    }
+
+    /**
+     * Вставляет указанный элемент в хвост этой очереди,
+     * если это возможно сделать немедленно, не превышая емкость очереди,
+     * возвращая true в случае успеха и false , если эта очередь заполнена.
+     * Этот метод, как правило, предпочтительнее, чем метод add(E),
+     * который может не вставить элемент только из-за исключения.
+     */
+    private void offer(LogLevel logLevel, String strMessage) {
+        LogEntry entry = new LogEntry(logLevel, strMessage);
+        m_messages.offer(entry);
+    }
+
+    /**
+     * Вставляет указанный элемент в хвост этой очереди,
+     * ожидая освобождения места, если очередь заполнена.
+     */
+    private void put(LogLevel logLevel, String strMessage) throws InterruptedException {
+        LogEntry entry = new LogEntry(logLevel, strMessage);
+        m_messages.put(entry);
+    }
+
+    /**
+     * Вставляет указанный элемент в хвост этой очереди, ожидая до указанного времени ожидания,
+     * пока пространство не станет доступным, если очередь заполнена.
+     */
+    private void offerTimeout(LogLevel logLevel, String strMessage) throws InterruptedException {
+        LogEntry entry = new LogEntry(logLevel, strMessage);
+        m_messages.offer(entry, 50, TimeUnit.SECONDS);
     }
 
     public int size() {
